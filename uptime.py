@@ -1,8 +1,6 @@
 import RPi.GPIO as GPIO
-# import subprocess
 import requests
 import json
-# import sys
 
 green = 12
 yellow = 25
@@ -59,16 +57,15 @@ def isItUp(site):
 
 
 def changeLight(color, status):
-    {}
-    # if status == "high":
-    #     output = GPIO.HIGH
-    # else:
-    #     output = GPIO.LOW
-    #
-    # GPIO.setmode(GPIO.BCM)
-    # GPIO.setwarnings(False)
-    # GPIO.setup(color, GPIO.OUT)
-    # GPIO.output(color, output)
+    if status == "high":
+        output = GPIO.HIGH
+    else:
+        output = GPIO.LOW
+
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setwarnings(False)
+    GPIO.setup(color, GPIO.OUT)
+    GPIO.output(color, output)
 
 
 def dataOutput(site, status):
