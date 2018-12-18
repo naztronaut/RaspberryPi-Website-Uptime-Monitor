@@ -21,6 +21,12 @@ green = 12
 yellow = 25
 red = 18
 ```
+## Backlog items:
+
+1. Web service access (currently in process as a Flask app)
+2. Database integration - for reporting purposes
+3. Notification via email 
+ 
 
 ## Authors
 
