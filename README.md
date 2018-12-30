@@ -21,6 +21,43 @@ green = 12
 yellow = 25
 red = 18
 ```
+
+## Installation
+The following commands is a rough draft of what nees to be done to install all dependencies. Details will be posted later:
+
+If you haven't already, first clone this repository:
+```
+git clone https://github.com/naztronaut/RaspberryPi-Website-Uptime-Monitor.git
+```
+
+Once you've cloned it, `cd` into the directory and install a virtual environment:
+```
+python3 -m venv venv
+```
+
+Activate the virtual environment:
+```
+. venv/bin/activate
+```
+
+Let's install four more dependencies. Installing flask right away isn't necessary unless you want a UI for your web service:
+```
+pip install RPi.GPIO flask mysqlclient requests
+```
+
+### Run Flask APP
+Running a flask app is fairly simple. Once you have flask installed in your virtual environment, let's run this command:
+```
+export FLASK_APP=upService.py
+```
+
+Then when we are done, let's run the actual flask app:
+```
+flask run --host=0.0.0.0
+```
+
+You can now access it from any computer on your network (assuming there are no firewall settings blocking this) by going to http://ip_addr:5000 - substitude ip_addr for the IP address for your pi. Hostname will also work in some instances.
+
 ## Backlog items:
 
 1. Web service access (currently in process as a Flask app)
