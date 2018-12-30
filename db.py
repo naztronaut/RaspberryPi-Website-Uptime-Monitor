@@ -19,8 +19,6 @@ def currentStatus(site, status):
 # Insert sites innto `outages` as an array
 def insertSites(sites, numSites):
         cursor.execute("""INSERT INTO outages (sitesAffected, numberOfSites) values (%s,%s)""", (sites, numSites))
-        #print(sites)
-        #print(numSites)
         db.commit()
 
 # Insert sites that are offline to `downtimeCounts` - if they already exist, increase the downCount by 1

@@ -43,8 +43,10 @@ def updateDownSites():
 
 def checkSite():
     for site in upSites:
-        # check the downsiteCount table for all sites in the upSites[] list - if record exists, then it'll set the downCount to 0
+        # check the downsiteCount table for all sites in the upSites[] list - 
+	# if record exists, then it'll set the downCount to 0
         db.checkSite(site)
+
 
 def isItUp(site):
     upSites = []
@@ -110,7 +112,7 @@ def dataOutput(site, status):
         changeLight(red, 'low')
         changeLight(yellow, 'low')
 
-    # Checks uptsites separately
+    # Checks upsites separately
     # If at least one site is online, green light is on. Indicates that at least the world isn't ending
     if len(upSites) >= 1:
         changeLight(green, 'high')
@@ -118,4 +120,4 @@ def dataOutput(site, status):
         changeLight(green, 'low')
 
 
-sites()
+#sites()

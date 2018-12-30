@@ -9,8 +9,14 @@ app = Flask(__name__)
 
 
 @app.route('/', methods=['GET'])
+def homePage():
+	return "There's nothing here. Find your own way!"
+
+
+# Manually updates all statuses and updates the database
+@app.route('/updateStatus', methods=['GET'])
 def getJson():
-        print(uptime.sites())
+        #print(uptime.sites())
         data = json.loads(uptime.sites())
         return data
 
