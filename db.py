@@ -6,7 +6,7 @@ db = MySQLdb.connect(config.DATABASE_CONFIG['host'],config.DATABASE_CONFIG['dbus
 
 cursor = db.cursor()
 
-cursor.execute("""SELECT * FROM outages""")
+#cursor.execute("""SELECT * FROM outages""")
 #r = db.store_result()
 #data = cursor.fetchall()
 #for row in data:
