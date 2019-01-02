@@ -1,5 +1,7 @@
 venv
 database/config.py
+/database/config.py
+/database/__pycache__/*
 __pycache__
 RPi
 .idea
