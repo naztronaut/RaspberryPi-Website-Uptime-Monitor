@@ -1,4 +1,5 @@
 venv
 database/config.py
-/database/config.py
 __pycache__
+RPi
+.idea
