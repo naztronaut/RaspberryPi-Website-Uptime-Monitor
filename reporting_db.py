@@ -4,7 +4,7 @@ import database.config as config
 import json
 import datetime
 
-#db = MySQLdb.connect("localhost","uptime","password123!","uptime")
+
 db = MySQLdb.connect(host=config.DATABASE_CONFIG['host'],user=config.DATABASE_CONFIG['dbuser'],
     passwd=config.DATABASE_CONFIG['dbpass'],db=config.DATABASE_CONFIG['dbname'],
     cursorclass=MySQLdb.cursors.DictCursor)
