@@ -5,7 +5,7 @@ user_cron = CronTab(user='pi')
 
 def listCron():
     for job in user_cron:
-        print(job.comment + " : " + job)
+        print(job)
 
 
 def cronCheckSites():
