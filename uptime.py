@@ -16,10 +16,10 @@ downSites = []
 
 def sites():
     global js
+    # Read list of sites in sites.txt - one site per line
+    # make sure the up.json file exists with the property "site"
     with open("sites.txt") as f:
         for line in f:
-            # print(line)
-            # downcount += isItUp(line)
             isItUp(line)
     if len(upSites) + len(downSites) == 4:
         js = '{"up": "' + str(len(upSites)) + '", "down" : "' + str(len(downSites)) + '", "upSites": "' + str(
@@ -32,7 +32,7 @@ def sites():
     # db.addActivity(
     # trigger updateDownSites() method to store data in `outages` table
     updateDownSites()
-    # trigger checkSite() method to tigger double checking of sites that are up
+    # trigger checkSite() method to trigger double checking of sites that are up
     checkSite()
     return json.dumps(js)
 
