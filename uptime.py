@@ -122,4 +122,4 @@ def dataOutput(site, status):
     else:
         changeLight(green, 'low')
 
-# sites()
+sites()

@@ -1,0 +1,44 @@
+import MySQLdb
+import database.config as config
+import json
+import datetime
+
+#db = MySQLdb.connect("localhost","uptime","password123!","uptime")
+db = MySQLdb.connect(config.DATABASE_CONFIG['host'],config.DATABASE_CONFIG['dbuser'],
+    config.DATABASE_CONFIG['dbpass'],config.DATABASE_CONFIG['dbname'],
+    )
+
+cursor = db.cursor()
+
+
+def getCurrentStatus(page, limit):
+    pg = (page - 1) * limit
+    cursor.execute("""SELECT site,status FROM currentStatus LIMIT %s,%s""", (pg, limit))
+    data = cursor.fetchall()
+    return data
+
+
+def getActivity(page, limit):
+    pg = (page - 1) * limit
+    cursor.execute("""SELECT * FROM activity LIMIT %s,%s""", (pg, limit))
+    data = cursor.fetchall()
+    return data
+
+
+def getOutages(page, limit):
+    pg = (page - 1) * limit
+    cursor.execute("""SELECT * FROM outages LIMIT %s,%s""", (pg, limit))
+    data = cursor.fetchall()
+    return data
+
+
+def getDowntimeCounts(page, limit):
+    pg = (page - 1) * limit
+    cursor.execute("""SELECT * FROM downtimeCounts LIMIT %s,%s""", (pg, limit))
+    data = cursor.fetchall()
+    return data
+
+
+def timeConverter(t):
+    if isinstance(t, datetime.datetime):
+        return t.__str__()
