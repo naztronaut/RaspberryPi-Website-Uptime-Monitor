@@ -16,35 +16,38 @@ downSites = []
 
 def sites():
     global js
+    # Read list of sites in sites.txt - one site per line
+    # make sure the up.json file exists with the property "site"
     with open("sites.txt") as f:
         for line in f:
-            # print(line)
-            # downcount += isItUp(line)
             isItUp(line)
     if len(upSites) + len(downSites) == 4:
-        js = '{"up": "' + str(len(upSites)) + '", "down" : "' + str(len(downSites)) + '", "upSites": "' + str(upSites) + '", "downSites": "' + str(downSites) + '"}'
+        js = '{"up": "' + str(len(upSites)) + '", "down" : "' + str(len(downSites)) + '", "upSites": "' + str(
+            upSites) + '", "downSites": "' + str(downSites) + '"}'
 
-    #print(js)
+    # print(js)
     # insert into `outages` table with a list of sites in an array and the length of the downSites arr
     if len(downSites) > 0:
         db.insertSites(str(downSites), str(len(downSites)))
-    #db.addActivity(
+    # db.addActivity(
     # trigger updateDownSites() method to store data in `outages` table
     updateDownSites()
-    # trigger checkSite() method to tigger double checking of sites that are up
+    # trigger checkSite() method to trigger double checking of sites that are up
     checkSite()
     return json.dumps(js)
 
+
 def updateDownSites():
     for site in downSites:
-        #print("site:" + site)
+        # print("site:" + site)
         # insert into `downsitesCount` table and increment downCount by 1 if applicable
         db.insertDownSite(site)
+
 
 def checkSite():
     for site in upSites:
         # check the downsiteCount table for all sites in the upSites[] list - 
-	# if record exists, then it'll set the downCount to 0
+        # if record exists, then it'll set the downCount to 0
         db.checkSite(site)
 
 
@@ -94,12 +97,12 @@ def dataOutput(site, status):
         upSites.append(site.replace('\n', ''))
         # send to `activity` table as site that is online
         db.addActivity("up", site)
-        db.currentStatus(site,"up")
+        db.currentStatus(site, "up")
     else:
         downSites.append(site.replace('\n', ''))
         # send to activity table as site that is offline
         db.addActivity("down", site)
-        db.currentStatus(site,"down")
+        db.currentStatus(site, "down")
     if len(downSites) >= 3:
         changeLight(red, 'high')
         changeLight(yellow, 'low')
@@ -119,5 +122,4 @@ def dataOutput(site, status):
     else:
         changeLight(green, 'low')
 
-
-#sites()
+sites()
