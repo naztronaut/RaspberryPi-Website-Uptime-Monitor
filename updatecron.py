@@ -15,8 +15,10 @@ def cronCheckSites():
 
 
 def findCron(comment):
-    iter = user_cron.find_comment(comment)
-    print(iter)
+    for job in user_cron:
+        if job.comment == comment:
+            print(job.comment)
+            print(job.command)
     # print(iter.command)
 
 # listCron()
