@@ -19,6 +19,7 @@ def findCron(comment):
         if job.comment == comment:
             print(job.comment)
             print(job.command)
+            print(job.frequency)
     # print(iter.command)
 
 # listCron()
