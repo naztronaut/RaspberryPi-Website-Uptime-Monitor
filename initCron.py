@@ -31,7 +31,7 @@ def cronGreenLedOff():
 
 def cronGreenLedOn():
     job = user_cron.new(command='cd /home/pi/uptime; /home/pi/uptime/venv/bin/python3 /home/pi/uptime/cronGreenled.py HIGH', comment='greenLedOn')
-    job.setall('17 30 * * 0,1,2,3,4,5,6')
+    job.setall('30 17 * * 0,1,2,3,4,5,6')
     user_cron.write()
     db.addCron('greenLedOn', 'Green LED On', '0 0 * * 0,1,2,3,4,5,6', 'cronGreenLed.py', 1)
 
