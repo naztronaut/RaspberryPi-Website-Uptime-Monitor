@@ -24,5 +24,12 @@ def findCron(comment):
 
 # listCron()
 
+def findAndUpdate(comment, freq):
+    for job in user_cron:
+        if job.comment == comment:
+            job.minute.every(freq)
+            user_cron.write()
+            print(comment + " cron job updated successfully. It will now run every " + freq + " minutes")
 
-findCron('checksites')
+
+findAndUpdate('checksites', 15)
