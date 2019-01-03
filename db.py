@@ -50,3 +50,16 @@ def checkSite(site):
 def addActivity(statustype, sites):
     cursor.execute("""INSERT INTO activity (activityType, sitesAffected) VALUES (%s, %s)""", (statustype, sites))
     db.commit()
+
+
+# Cron settings
+def addCron(comment, cronName, cronVal, cronScript, enabled):
+        cursor.execute("""INSERT INTO cronSettings (comment, cronName, cronVal, cronScript, enabled) 
+                        VALUES (%s, %s, %s, %s, %s)""", (comment, cronName, cronVal, cronScript, enabled))
+        db.commit()
+
+
+def updateCron(comment, cronVal):
+        cursor.execute("""UPDATE cronSettings set cronVal = %s WHERE
+                        comment = %s""", (cronVal, comment))
+        db.commit()

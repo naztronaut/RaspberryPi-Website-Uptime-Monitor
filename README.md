@@ -102,6 +102,21 @@ flask run --host=0.0.0.0
 You can now access it from any computer on your network (assuming there are no firewall settings blocking this) by going to http://ip_addr:5000 - 
 substitute `ip_addr` for the IP address for your pi. Hostname will also work in some instances depending on your network setup.
 
+## Initialize Cron jobs
+
+You can initialize some Cron Jobs that are put in place. Before proceeding, edit the `initCron.py` folder and edit the two instances of the directory called `uptime` on line 17 to whatever you called your repository.
+
+After making the edit, run the script with the following command:
+
+```bash
+python3 initCron.py
+```
+
+This script will add the cron jobs listed below to crontab as well as to the cronSettings MySQL table:
+
+- Check Sites - by default, this will check sites every 10 minutes to see if they are online
+- TBD Emails
+
 ## Backlog items:
 
 1. Web service access (currently in process as a Flask app)

@@ -35,3 +35,15 @@ CREATE TABLE `downtimeCounts` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `uniqueSite` (`site`)
 );
+
+CREATE TABLE `cronSettings` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `comment` varchar(150) NOT NULL,
+  `updateDate` timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `cronName` varchar(500) DEFAULT NULL,
+  `cronVal` int(11) DEFAULT NULL,
+  `cronScript` varchar(250) DEFAULT NULL,
+  `enabled` tinyint(2) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `comment` (`comment`)
+)
