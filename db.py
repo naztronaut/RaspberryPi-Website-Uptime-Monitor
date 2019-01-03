@@ -60,6 +60,6 @@ def addCron(comment, cronName, cronVal, cronScript, enabled):
 
 
 def updateCron(comment, cronVal):
-        cursor.execute("""UPDATE cronSettings set cronVal = %s) WHERE
+        cursor.execute("""UPDATE cronSettings set cronVal = %s WHERE
                         comment = %s""", (cronVal, comment))
         db.commit()
