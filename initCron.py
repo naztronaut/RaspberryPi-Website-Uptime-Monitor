@@ -24,13 +24,13 @@ def cronCheckSites():
 
 
 def cronGreenLedOff():
-    job = user_cron.new(command='cd /home/pi/uptime; /home/pi/uptime/venv/bin/python3 /home/pi/uptime/cronGreenled.py LOW', comment='greenLedOff')
+    job = user_cron.new(command='cd /home/pi/uptime; /home/pi/uptime/venv/bin/python3 /home/pi/uptime/cronGreenLed.py LOW', comment='greenLedOff')
     job.setall('0 0 * * 0,1,2,3,4,5,6')
     user_cron.write()
     db.addCron('greenLedOff', 'Green LED Off', '0 0 * * 0,1,2,3,4,5,6', 'cronGreenLed.py', 1)
 
 def cronGreenLedOn():
-    job = user_cron.new(command='cd /home/pi/uptime; /home/pi/uptime/venv/bin/python3 /home/pi/uptime/cronGreenled.py HIGH', comment='greenLedOn')
+    job = user_cron.new(command='cd /home/pi/uptime; /home/pi/uptime/venv/bin/python3 /home/pi/uptime/cronGreenLed.py HIGH', comment='greenLedOn')
     job.setall('30 17 * * 0,1,2,3,4,5,6')
     user_cron.write()
     db.addCron('greenLedOn', 'Green LED On', '0 0 * * 0,1,2,3,4,5,6', 'cronGreenLed.py', 1)
