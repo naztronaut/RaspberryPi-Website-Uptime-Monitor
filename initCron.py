@@ -11,6 +11,7 @@ cronList = [
     }
 ]
 
+
 def cronCheckSites():
     for item in cronList:
         job = user_cron.new(command='cd /home/pi/uptime; /home/pi/uptime/venv/bin/python3 /home/pi/uptime/' +
@@ -19,3 +20,6 @@ def cronCheckSites():
         user_cron.write()
         db.addCron(item.scriptName, item.frequency, item.cronScript, 1)
         print('Successfully added job titled ' + item.name)
+
+
+cronCheckSites()
