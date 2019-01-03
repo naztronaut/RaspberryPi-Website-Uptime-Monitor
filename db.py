@@ -54,10 +54,12 @@ def addActivity(statustype, sites):
 
 # Cron settings
 def addCron(cronName, cronVal, cronScript, enabled):
-        cursor.execute("""INSERT INTO cronSettings (cronName, cronVal, cronScript, enabled) VALUES (%s, %s, %s, %s""", (cronName, cronVal, cronScript, enabled))
+        cursor.execute("""INSERT INTO cronSettings (cronName, cronVal, cronScript, enabled) VALUES (%s, %s, %s, %s)""",
+                       (cronName, cronVal, cronScript, enabled))
         db.commit()
 
 
 def updateCron(cronName, cronVal, cronScript, enabled):
-        cursor.execute("""UPDATE cronSettings set cronName = %s, cronVal = %s, cronScript = %s, enabled = %s""", (cronName, cronVal, cronScript, enabled))
+        cursor.execute("""UPDATE cronSettings set cronName = %s, cronVal = %s, cronScript = %s, enabled = %s)""",
+                       (cronName, cronVal, cronScript, enabled))
         db.commit()
