@@ -29,7 +29,7 @@ def findAndUpdate(comment, freq):
         if job.comment == comment:
             job.minute.every(freq)
             user_cron.write()
-            print(comment + " cron job updated successfully. It will now run every " + freq + " minutes")
+            print(comment + " cron job updated successfully. It will now run every " + str(freq) + " minutes")
 
 
 findAndUpdate('checksites', 15)
