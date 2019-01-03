@@ -14,4 +14,12 @@ def cronCheckSites():
     user_cron.write()
 
 
-listCron()
+def findCron(comment):
+    iter = user_cron.find_comment(comment)
+    print(iter)
+    print(iter.command)
+
+# listCron()
+
+
+findCron('checksites')
