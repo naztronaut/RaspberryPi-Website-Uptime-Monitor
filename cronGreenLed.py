@@ -7,6 +7,9 @@ GPIO.setwarnings(False)
 green = 12
 GPIO.setup(green, GPIO.OUT)
 
-status = sys.argv[1]
+if sys.argv[1] == "HIGH":
+    status = GPIO.HIGH
+else:
+    status = GPIO.LOW
 
 GPIO.output(green, status)
