@@ -34,4 +34,4 @@ def findAndUpdate(comment, freq):
             db.updateCron(comment, freq)
 
 
-findAndUpdate('checkSites', 15)
+#findAndUpdate('checkSites', 15)
