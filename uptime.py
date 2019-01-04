@@ -8,7 +8,8 @@ green = 12
 yellow = 25
 red = 18
 # hard coded number of sites
-totalSites = 4
+global totalSites
+totalSites = 0
 global upSites
 upSites = []
 global downSites
@@ -21,8 +22,9 @@ def sites():
     # make sure the up.json file exists with the property "site"
     with open("sites.txt") as f:
         for line in f:
+            totalSites += 1
             isItUp(line)
-    if len(upSites) + len(downSites) == 4:
+    if len(upSites) + len(downSites) == totalSites:
         js = '{"up": "' + str(len(upSites)) + '", "down" : "' + str(len(downSites)) + '", "upSites": "' + str(
             upSites) + '", "downSites": "' + str(downSites) + '"}'
     # insert into `outages` table with a list of sites in an array and the length of the downSites arr
