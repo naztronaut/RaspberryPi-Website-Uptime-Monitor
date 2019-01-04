@@ -25,14 +25,11 @@ def sites():
     if len(upSites) + len(downSites) == 4:
         js = '{"up": "' + str(len(upSites)) + '", "down" : "' + str(len(downSites)) + '", "upSites": "' + str(
             upSites) + '", "downSites": "' + str(downSites) + '"}'
-
     # insert into `outages` table with a list of sites in an array and the length of the downSites arr
     if len(downSites) > 0:
         db.insertSites(str(downSites), str(len(downSites)))
-
     # trigger updateDownSites() method to store data in `outages` table
     updateDownSites()
-
     # trigger checkSite() method to trigger double checking of sites that are up
     checkSite()
     return json.dumps(js)
@@ -81,6 +78,8 @@ def isItUp(site):
 
 def changeLight(color, status):
     # will only turn on green led if it hasn't been turned off by the cron jobs at night
+    print(color)
+    print(status)
     if (color == green & rdb.getLedStatus('green') == 1) or color == red or color == yellow:
         if status == "high":
             output = GPIO.HIGH
