@@ -22,7 +22,7 @@ def sites():
     # make sure the up.json file exists with the property "site"
     with open("sites.txt") as f:
         for line in f:
-            totalSites += 1
+            totalSites =+ 1
             isItUp(line)
     if len(upSites) + len(downSites) == totalSites:
         js = '{"up": "' + str(len(upSites)) + '", "down" : "' + str(len(downSites)) + '", "upSites": "' + str(
