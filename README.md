@@ -10,7 +10,7 @@ These instructions will get you a copy of the project up and running on your loc
 
 Demo Pic of project in progress:
 
-<img src="https://i.imgur.com/yYHUCZ2.jpg" alt="Website Uptime Monitor" width="600" />
+<img src="https://i.imgur.com/yYHUCZ2.jpg" alt="Website Uptime Monitor" width="700" />
 
 ### Hardware
 
@@ -38,6 +38,8 @@ If you haven't already, first clone this repository:
 ```bash
 git clone https://github.com/naztronaut/RaspberryPi-Website-Uptime-Monitor.git
 ```
+
+For simplicity's sake, I recommend changing the name of the directory/repo to `uptime` as I've done it in and will be using for the rest of this guide. 
 
 ### Website List (up.json)
 
