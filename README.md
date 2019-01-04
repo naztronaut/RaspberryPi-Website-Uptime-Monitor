@@ -66,6 +66,14 @@ CREATE DATABASE `uptime`;
 USE `uptime`;
 ```
 
+The Schema also includes a `ledStatus` table that stores the current status of the LEDs. The default pins listed above are used. If you are using other GPIO Pins, please update the `INSERT` query on line 61 to the GPIO Pin Id that you are using:
+
+```sql
+INSERT INTO ledStatus (color, pin, status) VALUES ('red', 18, 0),('yellow',25,0),('green',12,0);
+```
+
+The above table is used for turning off the Green LED during off hours using cron jobs explained below. 
+
 Now you can run the schema.sql with the following command:
 ```bash
 source database/schema.sql
@@ -102,6 +110,8 @@ flask run --host=0.0.0.0
 You can now access it from any computer on your network (assuming there are no firewall settings blocking this) by going to http://ip_addr:5000 - 
 substitute `ip_addr` for the IP address for your pi. Hostname will also work in some instances depending on your network setup.
 
+Details on the Flask app will be posted later. 
+
 ## Initialize Cron jobs
 
 You can initialize some Cron Jobs that are put in place. Before proceeding, edit the `initCron.py` folder and edit the two instances of the directory called `uptime` on line 17 to whatever you called your repository.
@@ -115,13 +125,16 @@ python3 initCron.py
 This script will add the cron jobs listed below to crontab as well as to the cronSettings MySQL table:
 
 - Check Sites - by default, this will check sites every 10 minutes to see if they are online
+- Turn Off Green LED - by default, the Green LED will be turned off between 12:30 AM and 5:30 PM. This is the assumption that you will not be home to see the light. This will NOT affect the red and yellow lights.
+At the moment, this  happens every day. I will update to have different hours for weekends. 
 - TBD Emails
 
 ## Backlog items:
 
 1. Web service access (currently in process as a Flask app)
 2. Database integration - for reporting purposes (in progress)
-3. Notification via email 
+3. Cron Jobs (in progress)
+4. Notification via email 
  
 
 ## Authors
