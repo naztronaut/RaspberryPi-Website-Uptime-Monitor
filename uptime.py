@@ -24,9 +24,7 @@ def sites():
         for line in f:
             totalSites = totalSites + 1
             isItUp(line)
-    print(totalSites)
-    print(len(upSites))
-    print(len(downSites))
+
     if len(upSites) + len(downSites) == totalSites:
         js = '{"up": "' + str(len(upSites)) + '", "down" : "' + str(len(downSites)) + '", "upSites": "' + str(
             upSites) + '", "downSites": "' + str(downSites) + '"}'
