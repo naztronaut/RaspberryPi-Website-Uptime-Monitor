@@ -48,8 +48,7 @@ def timeConverter(t):
 def getLedStatus(color):
     cursor.execute("""SELECT status FROM ledStatus where color = %s""", [color])
     data = cursor.fetchone()
-    print(data['status'])
-    return data
+    return data['status']
 
 
 getLedStatus('green')

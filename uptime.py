@@ -1,7 +1,7 @@
 import RPi.GPIO as GPIO
 import requests
 import json
-import db
+import reporting_db as db
 
 green = 12
 yellow = 25
@@ -79,17 +79,16 @@ def isItUp(site):
 
 
 def changeLight(color, status):
-    if status == "high":
-        output = GPIO.HIGH
-        dbVal = 1
-    else:
-        output = GPIO.LOW
-        dbVal = 0
+    if (color == green & db.getLedStatus('green') == 1) or color == red or color == yellow:
+        if status == "high":
+            output = GPIO.HIGH
+        else:
+            output = GPIO.LOW
 
-    GPIO.setmode(GPIO.BCM)
-    GPIO.setwarnings(False)
-    GPIO.setup(color, GPIO.OUT)
-    GPIO.output(color, output)
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setwarnings(False)
+        GPIO.setup(color, GPIO.OUT)
+        GPIO.output(color, output)
 
 
 def dataOutput(site, status):
