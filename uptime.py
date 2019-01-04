@@ -79,6 +79,7 @@ def isItUp(site):
 
 
 def changeLight(color, status):
+    # will only turn on green led if it hasn't been turned off by the cron jobs at night
     if (color == green & db.getLedStatus('green') == 1) or color == red or color == yellow:
         if status == "high":
             output = GPIO.HIGH

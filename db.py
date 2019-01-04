@@ -54,7 +54,7 @@ def addActivity(statustype, sites):
 
 # LED Table
 def changeLedStatus(color, status):
-    cursor.execute("""INSERT INTO ledStatus (color, status) VALUES (%s,%s)""", (color, status))
+    cursor.execute("""UPDATE ledStatus set status = %s where color = %""", (status, color))
     db.commit()
 
 
