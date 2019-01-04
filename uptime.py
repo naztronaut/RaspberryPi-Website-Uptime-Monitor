@@ -8,8 +8,6 @@ green = 12
 yellow = 25
 red = 18
 # hard coded number of sites
-global totalSites
-totalSites = 0
 global upSites
 upSites = []
 global downSites
@@ -18,12 +16,17 @@ downSites = []
 
 def sites():
     global js
+    global totalSites
+    totalSites = 0
     # Read list of sites in sites.txt - one site per line
     # make sure the up.json file exists with the property "site"
     with open("sites.txt") as f:
         for line in f:
-            totalSites =+ 1
+            totalSites = totalSites + 1
             isItUp(line)
+    print(totalSites)
+    print(len(upSites))
+    print(len(downSites))
     if len(upSites) + len(downSites) == totalSites:
         js = '{"up": "' + str(len(upSites)) + '", "down" : "' + str(len(downSites)) + '", "upSites": "' + str(
             upSites) + '", "downSites": "' + str(downSites) + '"}'
