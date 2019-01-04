@@ -39,6 +39,22 @@ If you haven't already, first clone this repository:
 git clone https://github.com/naztronaut/RaspberryPi-Website-Uptime-Monitor.git
 ```
 
+### Website List (up.json)
+
+After you clone the repo, you'll see a file called `sites.example.txt` in the folder. This is an example list of sites that I'm monitoring. Rename this to `sites.txt` and add one site per line. 
+
+At this moment, the monitor checks to see if the link location has a `.json` file with the property `site` - this property must be the same URL at which this file is located. Please see the `up.json` file as an example. The content of the file is as follows:
+
+```json
+{
+  "site": "https://www.easyprogramming.net/up.json"
+}
+```
+
+If you go to the above  URL, you will find that JSON file with that properly. You don't have to call it `up.json` but for the time being, the location of the file and the property within it must be the same. This is how the script validates that the website is actually loading content and not just returning a status 200.
+
+Avoid having a blank line in your `sites.txt` file. I may put all of this in database tables at some point in the future.  
+
 ### Database
 Before continuing, we should create a database using the schema included in database/schema.sql. Before creating the schema, `cd` into the database directory and edit the `config.sample.py` and update configurations with the database that you'll create in the next step:
 
@@ -91,9 +107,9 @@ Activate the virtual environment:
 . venv/bin/activate
 ```
 
-Let's install four more dependencies. Installing flask right away isn't necessary unless you want a UI for your web service:
+Let's install five more dependencies. Installing flask right away isn't necessary unless you want a UI for your web service:
 ```bash
-pip install RPi.GPIO flask mysqlclient requests
+pip install RPi.GPIO flask mysqlclient requests python-crontab
 ```
 
 ### Run Flask APP
