@@ -25,13 +25,13 @@ def sites():
         js = '{"up": "' + str(len(upSites)) + '", "down" : "' + str(len(downSites)) + '", "upSites": "' + str(
             upSites) + '", "downSites": "' + str(downSites) + '"}'
 
-    # print(js)
     # insert into `outages` table with a list of sites in an array and the length of the downSites arr
     if len(downSites) > 0:
         db.insertSites(str(downSites), str(len(downSites)))
-    # db.addActivity(
+
     # trigger updateDownSites() method to store data in `outages` table
     updateDownSites()
+
     # trigger checkSite() method to trigger double checking of sites that are up
     checkSite()
     return json.dumps(js)
@@ -39,7 +39,6 @@ def sites():
 
 def updateDownSites():
     for site in downSites:
-        # print("site:" + site)
         # insert into `downsitesCount` table and increment downCount by 1 if applicable
         db.insertDownSite(site)
 
@@ -69,7 +68,6 @@ def isItUp(site):
                 upSites.append(site)
                 dataOutput(site, 'up')
             else:
-                # print('Site URL different from site url passed')
                 downSites.append(site)
                 dataOutput(site, 'down')
         except:
@@ -83,8 +81,10 @@ def isItUp(site):
 def changeLight(color, status):
     if status == "high":
         output = GPIO.HIGH
+        dbVal = 1
     else:
         output = GPIO.LOW
+        dbVal = 0
 
     GPIO.setmode(GPIO.BCM)
     GPIO.setwarnings(False)

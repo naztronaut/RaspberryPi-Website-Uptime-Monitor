@@ -44,4 +44,11 @@ def timeConverter(t):
     if isinstance(t, datetime.datetime):
         return t.__str__()
 
-getCurrentStatus(1,10)
+
+def getLedStatus(color):
+    cursor.execute("""SELECT status FROM ledStatus where color = %s""", [color])
+    data = cursor.fetchone()
+    return data
+
+
+getLedStatus('green')

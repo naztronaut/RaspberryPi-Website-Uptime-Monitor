@@ -5,3 +5,4 @@ database/config.py
 __pycache__
 RPi
 .idea
+sites.txt

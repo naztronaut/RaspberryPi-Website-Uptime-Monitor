@@ -52,6 +52,12 @@ def addActivity(statustype, sites):
     db.commit()
 
 
+# LED Table
+def changeLedStatus(color, status):
+    cursor.execute("""INSERT INTO ledStatus (color, status) VALUES (%s,%s)""", (color, status))
+    db.commit()
+
+
 # Cron settings
 def addCron(comment, cronName, cronVal, cronScript, enabled):
         cursor.execute("""INSERT INTO cronSettings (comment, cronName, cronVal, cronScript, enabled) 

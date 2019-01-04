@@ -46,4 +46,16 @@ CREATE TABLE `cronSettings` (
   `enabled` tinyint(2) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `comment` (`comment`)
-)
+);
+
+CREATE TABLE `ledStatus` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `color` varchar(150) DEFAULT NULL,
+  `updateDate` timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `status` tinyint(2) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id` (`id`)
+);
+
+-- Inserts the three LED pins and preliminary status
+INSERT INTO ledStatus (color, pin, status) VALUES ('red', 18, 0),('yellow',25,0),('green',12,0);
