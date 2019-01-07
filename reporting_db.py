@@ -57,4 +57,4 @@ def getLedStatus(color):
     return data['status']
 
 
-getDowntimeCounts()
+getDownTimeCountsGreaterThanThree()
