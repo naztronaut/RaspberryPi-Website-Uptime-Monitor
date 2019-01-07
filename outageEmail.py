@@ -7,8 +7,8 @@ from email.mime.multipart import MIMEMultipart
 def outage(sites, downCount):
     msg = MIMEMultipart("alternative")
 
-    msg['Subject'] = 'Testing from python'
-    msg ['From'] = 'epuptime'
+    msg['Subject'] = 'Website outage detected!'
+    msg['From'] = 'epuptime'
     msg['To'] = 'njoker555@gmail.com'
 
     username = cred.EMAIL_CONFIG['username']
@@ -30,7 +30,7 @@ def outage(sites, downCount):
             server.sendmail('epuptime@gmail.com','njoker555@gmail.com',msg.as_string())
 
 
-outage('easyprogramming', 3)
+outage(['easyprogramming', 'postsession'], 3)
 
 # import smtplib, ssl
 # import emails.emailcred as cred

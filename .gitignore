@@ -6,4 +6,4 @@ __pycache__
 RPi
 .idea
 sites.txt
-emails/emailCred.py
+emails/emailcred.py
