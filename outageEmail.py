@@ -11,8 +11,8 @@ def outage(sites, downCount):
     message['From'] = 'EP Uptime Monitor'
     message['To'] = 'njoker555@gmail.com'
 
-    username = cred.EMAIL_CONFIG.username
-    password = cred.EMAIL_CONFIG.password
+    username = cred.EMAIL_CONFIG['username']
+    password = cred.EMAIL_CONFIG['password']
     port = 465
 
     htmlEmail = """
