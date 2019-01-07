@@ -17,8 +17,8 @@ def outage(sites, downCount):
 
     htmlEmail = """
         The following websites have been detected to be down, please check immediately: <br />
-        {0:}
-    """.format(sites)
+        %s 
+    """ % (sites)
 
     emailMsg = MIMEText(htmlEmail, "html")
     message.attach(emailMsg)
