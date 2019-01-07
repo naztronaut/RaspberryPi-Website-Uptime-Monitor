@@ -17,8 +17,8 @@ def outage(sites, downCount):
 
     htmlEmail = """
         The following websites have been detected to be down, please check immediately: <br />
-        %s
-    """, [sites]
+        {0:}
+    """.format(sites)
 
     emailMsg = MIMEText(htmlEmail, "html")
     message.attach(emailMsg)
@@ -30,5 +30,5 @@ def outage(sites, downCount):
         server.sendmail('epuptime@gmail.com', 'njoker555@gmail.com', message)
 
 
-outage('easyprogramming', 3)
+outage('easyprogramming', '3')
 
