@@ -1,5 +1,5 @@
 import smtplib, ssl
-import emails.emailCred as cred
+import emails.emailcred as cred
 
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
