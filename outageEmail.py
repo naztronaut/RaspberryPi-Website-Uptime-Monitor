@@ -1,4 +1,5 @@
 import smtplib, ssl
+import emails.emailcred as cred
 
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -9,8 +10,8 @@ msg['Subject'] = 'Testing from python'
 msg ['From'] = 'epuptime'
 msg['To'] = 'njoker555@gmail.com'
 
-username = 'epuptime'
-password = ''
+username = cred.EMAIL_CONFIG['username']
+password = cred.EMAIL_CONFIG['password']
 port = 465
 
 html = """
