@@ -40,6 +40,12 @@ def getDowntimeCounts(page, limit):
     return data
 
 
+def getDownTimeCountsGreaterThanThree():
+    cursor.execute("""SELECT * FROM downtimeCounts where downCount >= 3""")
+    data = cursor.fetchall()
+    return data
+
+
 def timeConverter(t):
     if isinstance(t, datetime.datetime):
         return t.__str__()
