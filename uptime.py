@@ -56,13 +56,13 @@ def isItUp(site):
     downSites = []
     site = site.replace('\n', '')
 
-    data = requests.get(site)
-
     # only proceed if page loads successfully with status code of 200
     try:
+        data = requests.get(site)
         if data.status_code == 200:
             resp = data.text
             parsed = json.loads(resp)
+            print(parsed)
             # if siteUrl property matches the site url passed, then it'll return a 1, otherwise the page gets a 200 but
             # for some reason, the json file isn't being read
             try:
