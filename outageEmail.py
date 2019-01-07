@@ -20,7 +20,7 @@ port = 465
 htmlEmail = """
     The following websites have been detected to be down, please check immediately: <br />
     %s 
-""" % ("blah di blah di blah")
+"""
 
 emailMsg = MIMEText(htmlEmail, "html")
 message.attach(emailMsg)
