@@ -62,7 +62,6 @@ def isItUp(site):
         if data.status_code == 200:
             resp = data.text
             parsed = json.loads(resp)
-            print(parsed)
             # if siteUrl property matches the site url passed, then it'll return a 1, otherwise the page gets a 200 but
             # for some reason, the json file isn't being read
             try:
@@ -81,7 +80,6 @@ def isItUp(site):
     except:
         downSites.append(site)
         dataOutput(site, 'down')
-        print(site + ' returned an error')
 
 
 def changeLight(color, status):
