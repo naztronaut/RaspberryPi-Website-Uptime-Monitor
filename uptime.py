@@ -59,24 +59,27 @@ def isItUp(site):
     data = requests.get(site)
 
     # only proceed if page loads successfully with status code of 200
-    if data.status_code == 200:
-        resp = data.text
-        parsed = json.loads(resp)
-        # if siteUrl property matches the site url passed, then it'll return a 1, otherwise the page gets a 200 but
-        # for some reason, the json file isn't being read
-        try:
-            if parsed['site'] == site:
-                upSites.append(site)
-                dataOutput(site, 'up')
-            else:
+    try:
+        if data.status_code == 200:
+            resp = data.text
+            parsed = json.loads(resp)
+            # if siteUrl property matches the site url passed, then it'll return a 1, otherwise the page gets a 200 but
+            # for some reason, the json file isn't being read
+            try:
+                if parsed['site'] == site:
+                    upSites.append(site)
+                    dataOutput(site, 'up')
+                else:
+                    downSites.append(site)
+                    dataOutput(site, 'down')
+            except:
                 downSites.append(site)
                 dataOutput(site, 'down')
-        except:
+        else:
             downSites.append(site)
             dataOutput(site, 'down')
-    else:
-        downSites.append(site)
-        dataOutput(site, 'down')
+    except:
+        print(site + ' returned an error')
 
 
 def changeLight(color, status):
