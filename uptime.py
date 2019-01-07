@@ -79,6 +79,8 @@ def isItUp(site):
             downSites.append(site)
             dataOutput(site, 'down')
     except:
+        downSites.append(site)
+        dataOutput(site, 'down')
         print(site + ' returned an error')
 
 
