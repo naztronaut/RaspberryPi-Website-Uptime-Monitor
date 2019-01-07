@@ -14,9 +14,9 @@ password = ''
 port = 465
 
 html = """
-THIS IS AN HTML MESSAGE <br />
-<a href="https://www.easyprogramming.net">EasyProgramming.net</a>
-"""
+    The following websites have been detected to be down, please check immediately: <br />
+    %s
+""" % ('easyprogramming')
 
 emailMsg = MIMEText(html, "html")
 
