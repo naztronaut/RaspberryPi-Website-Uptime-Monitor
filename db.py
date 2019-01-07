@@ -8,18 +8,19 @@ db = MySQLdb.connect(config.DATABASE_CONFIG['host'], config.DATABASE_CONFIG['dbu
 cursor = db.cursor()
 
 
-# cursor.execute("""SELECT * FROM outages""")
-# r = db.store_result()
-# data = cursor.fetchall()
-# for row in data:
-#        print(row)
+# Add all activities to `activity` table for historical purposes and reporting
+def addActivity(statustype, sites):
+    cursor.execute("""INSERT INTO activity (activityType, sitesAffected) VALUES (%s, %s)""", (statustype, sites))
+    db.commit()
 
+
+# Get current status of all sites
 def currentStatus(site, status):
     cursor.execute("""INSERT INTO currentStatus (site, status) VALUES (%s,%s)
                         ON DUPLICATE KEY UPDATE status = %s""", (site, status, status))
 
 
-# Insert sites innto `outages` as an array
+# Insert sites into `outages` as an array
 def insertSites(sites, numSites):
     cursor.execute("""INSERT INTO outages (sitesAffected, numberOfSites) values (%s,%s)""", (sites, numSites))
     db.commit()
@@ -43,12 +44,6 @@ def checkSite(site):
     if data >= 1:
         cursor.execute("""UPDATE downtimeCounts set downCount = 0 where site = %s""", [site])
         # print(site + " is back up!")
-    db.commit()
-
-
-# Add all activities to `activity` table for historical purposes and reporting
-def addActivity(statustype, sites):
-    cursor.execute("""INSERT INTO activity (activityType, sitesAffected) VALUES (%s, %s)""", (statustype, sites))
     db.commit()
 
 
