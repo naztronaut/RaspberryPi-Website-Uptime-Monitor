@@ -8,6 +8,12 @@ db = MySQLdb.connect(config.DATABASE_CONFIG['host'], config.DATABASE_CONFIG['dbu
 cursor = db.cursor()
 
 
+###########################################################################################
+#                                                                                         #
+# Begin Activity Queries                                                                  #
+#                                                                                         #
+###########################################################################################
+
 # Add all activities to `activity` table for historical purposes and reporting
 def addActivity(statustype, sites):
     cursor.execute("""INSERT INTO activity (activityType, sitesAffected) VALUES (%s, %s)""", (statustype, sites))
@@ -19,6 +25,18 @@ def currentStatus(site, status):
     cursor.execute("""INSERT INTO currentStatus (site, status) VALUES (%s,%s)
                         ON DUPLICATE KEY UPDATE status = %s""", (site, status, status))
 
+###########################################################################################
+#                                                                                         #
+# End Activity Queries                                                                    #
+#                                                                                         #
+###########################################################################################
+
+
+###########################################################################################
+#                                                                                         #
+# Begin Outage Queries                                                                    #
+#                                                                                         #
+###########################################################################################
 
 # Insert sites into `outages` as an array
 def insertSites(sites, numSites):
@@ -47,20 +65,68 @@ def checkSite(site):
     db.commit()
 
 
+###########################################################################################
+#                                                                                         #
+# End Outage Queries                                                                      #
+#                                                                                         #
+###########################################################################################
+
+
+###########################################################################################
+#                                                                                         #
+# Begin LED Queries                                                                       #
+#                                                                                         #
+###########################################################################################
 # LED Table
 def changeLedStatus(color, status):
     cursor.execute("""UPDATE ledStatus set status = %s where color = %s""", (status, color))
     db.commit()
 
+###########################################################################################
+#                                                                                         #
+# End LED Queries                                                                         #
+#                                                                                         #
+###########################################################################################
 
-# Cron settings
+
+###########################################################################################
+#                                                                                         #
+# Begin Cron Queries                                                                      #
+#                                                                                         #
+###########################################################################################
+
+# Add new cronjob to database
 def addCron(comment, cronName, cronVal, cronScript, enabled):
         cursor.execute("""INSERT INTO cronSettings (comment, cronName, cronVal, cronScript, enabled) 
                         VALUES (%s, %s, %s, %s, %s)""", (comment, cronName, cronVal, cronScript, enabled))
         db.commit()
 
-
+# Find and update cron job in database
 def updateCron(comment, cronVal):
         cursor.execute("""UPDATE cronSettings set cronVal = %s WHERE
                         comment = %s""", (cronVal, comment))
         db.commit()
+
+###########################################################################################
+#                                                                                         #
+# End Cron Queries                                                                        #
+#                                                                                         #
+###########################################################################################
+
+
+###########################################################################################
+#                                                                                         #
+# Begin Notifications Queries                                                             #
+#                                                                                         #
+###########################################################################################
+
+def addNotification(text):
+    cursor.execute("""INSERT INTO notifications (content) VALUES %s""", [text])
+    db.commit()
+
+
+###########################################################################################
+#                                                                                         #
+# End Notifications Queries                                                               #
+#                                                                                         #
+###########################################################################################

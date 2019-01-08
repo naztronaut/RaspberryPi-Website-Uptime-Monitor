@@ -1,5 +1,6 @@
 import smtplib, ssl
 import emails.emailcred as cred
+import db
 
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
@@ -36,5 +37,6 @@ def outage(sites, downCount):
             server.login(username, password)
             server.sendmail('epuptime@gmail.com', 'njoker555@gmail.com', msg.as_string())
 
+    db.addNotification(html)
 
 # outage(['easyprogramming', 'postsession'], 3)
