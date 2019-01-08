@@ -5,7 +5,7 @@ data = rdb.getDownTimeCountsGreaterThanThree()
 
 downSites = []
 count = 0
-print(len(data))
+
 if len(data) > 0:
     for item in data:
         # print(item)
