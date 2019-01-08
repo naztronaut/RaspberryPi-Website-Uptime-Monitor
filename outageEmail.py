@@ -32,11 +32,12 @@ def outage(sites, downCount):
 
     msg.attach(emailMsg)
 
+    # Add to database
+    db.addNotification(html)
+
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
             server.login(username, password)
             server.sendmail('epuptime@gmail.com', 'njoker555@gmail.com', msg.as_string())
-
-    # db.addNotification(html)
 
 # outage(['easyprogramming', 'postsession'], 3)
