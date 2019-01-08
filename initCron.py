@@ -3,12 +3,16 @@ from crontab import CronTab
 
 user_cron = CronTab(user='pi')
 
+# Clear all crons to set everything back to default
+user_cron.remove_all()
+user_cron.write()
+
 cronList = [
     {
         'comment': 'checkSites',
         'name': 'Check Sites',
         'cronScript': 'checkSitesCron',
-        'frequency': '10'
+        'frequency': '15'
     }
 ]
 
@@ -60,8 +64,19 @@ def cronGreenLedWeekendOff():
     db.addCron('greenLedOffWeekend', 'Green LED Off Weekend', '0 1 * * 0,1,6', 'cronGreenLed.py', 1)
 
 
+# Send out notifications via email every 1, 16, 31, and 46 minutes every hour.
+# Gives 1 minute between checking websites and sending notifications
+def cronOutageEmail():
+    job = user_cron.new(command='cd /home/pi/uptime; /home/pi/uptime/venv/bin/python3 /home/pi/uptime/cronOutage.py',
+                        comment='emailNotification')
+    job.setall('1,16,31,46 * * * *')
+    user_cron.write()
+    db.addCron('greenLedOffWeekend', 'Green LED Off Weekend', '0 1 * * 0,1,6', 'cronGreenLed.py', 1)
+
+
 cronCheckSites()
 cronGreenLedOn()
 cronGreenLedOff()
 cronGreenLedWeekendOn()
 cronGreenLedWeekendOff()
+cronOutageEmail()
