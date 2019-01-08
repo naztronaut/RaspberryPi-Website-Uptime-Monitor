@@ -33,7 +33,7 @@ def outage(sites, downCount):
     msg.attach(emailMsg)
 
     # Add to database
-    db.addNotification(html)
+    db.addNotification(html.as_string())
 
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
