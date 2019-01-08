@@ -8,8 +8,9 @@ count = 0
 
 for item in data:
     print(item)
+    # Only send an email if check has failed more than 3 times and only every 3 checks to minimize emails
     if item['downCount'] >= 3:
         count += 1
-        downSites.append(item['site'])
+        downSites.append(item)
 
 oe.outage(downSites, count)

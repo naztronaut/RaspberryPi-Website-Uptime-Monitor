@@ -4,7 +4,9 @@ import emails.emailcred as cred
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
+
 def outage(sites, downCount):
+
     msg = MIMEMultipart("alternative")
 
     msg['Subject'] = 'Website outage detected!'
@@ -17,8 +19,14 @@ def outage(sites, downCount):
 
     html = """
         The following websites have been detected to be down, please check the %s website(s) immediately: <br />
-        %s
-    """ % (downCount, sites)
+    """ % (downCount)
+
+    html += "<ul>"
+    for site in sites:
+        html += """
+            <li>%s - check failed %s times</li> 
+        """ % (site['site'], site['downCount'])
+    html += "</ul>"
 
     emailMsg = MIMEText(html, "html")
 
