@@ -8,7 +8,7 @@ from email.mime.multipart import MIMEMultipart
 def outage(sites, downCount):
 
     msg = MIMEMultipart("alternative")
-
+    print(sites)
     msg['Subject'] = 'Website outage detected!'
     msg['From'] = 'EP Uptime Monitor'
     msg['To'] = 'njoker555@gmail.com'
@@ -23,6 +23,7 @@ def outage(sites, downCount):
 
     html += "<ul>"
     for site in sites:
+        print(site)
         html += """
             <li>%s - check failed %s times</li> 
         """ % (site['site'], site['downCount'])
