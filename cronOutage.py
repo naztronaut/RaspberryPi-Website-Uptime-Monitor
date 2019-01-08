@@ -9,7 +9,7 @@ count = 0
 for item in data:
     print(item)
     # Only send an email if check has failed more than 3 times and only every 3 checks to minimize emails
-    if item['downCount'] >= 3:
+    if item['downCount'] >= 3 and item['downCount'] % 3 == 0:
         count += 1
         downSites.append(item)
 

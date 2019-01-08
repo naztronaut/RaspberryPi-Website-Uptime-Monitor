@@ -59,3 +59,13 @@ CREATE TABLE `ledStatus` (
 
 -- Inserts the three LED pins and preliminary status
 INSERT INTO ledStatus (color, pin, status) VALUES ('red', 18, 0),('yellow',25,0),('green',12,0);
+
+
+-- Store emails that were sent out
+CREATE TABLE `notifications` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `createdAt` timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `content` longtext,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_unique` (`id`)
+)
