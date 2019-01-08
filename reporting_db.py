@@ -55,6 +55,3 @@ def getLedStatus(color):
     cursor.execute("""SELECT status FROM ledStatus where color = %s""", [color])
     data = cursor.fetchone()
     return data['status']
-
-
-print(getDownTimeCountsGreaterThanThree())
