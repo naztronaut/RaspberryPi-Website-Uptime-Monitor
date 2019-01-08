@@ -71,7 +71,7 @@ def cronOutageEmail():
                         comment='emailNotification')
     job.setall('1,16,31,46 * * * *')
     user_cron.write()
-    db.addCron('greenLedOffWeekend', 'Green LED Off Weekend', '0 1 * * 0,1,6', 'cronGreenLed.py', 1)
+    db.addCron('outageEmail', 'Green LED Off Weekend', '0 1 * * 0,1,6', 'cronGreenLed.py', 1)
 
 
 cronCheckSites()
