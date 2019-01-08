@@ -37,6 +37,6 @@ def outage(sites, downCount):
             server.login(username, password)
             server.sendmail('epuptime@gmail.com', 'njoker555@gmail.com', msg.as_string())
 
-    db.addNotification(html)
+    # db.addNotification(html)
 
 # outage(['easyprogramming', 'postsession'], 3)
