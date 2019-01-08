@@ -39,4 +39,4 @@ def outage(sites, downCount):
             server.sendmail('epuptime@gmail.com', 'njoker555@gmail.com', msg.as_string())
 
 
-outage(['easyprogramming', 'postsession'], 3)
+# outage(['easyprogramming', 'postsession'], 3)
