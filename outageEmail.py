@@ -7,18 +7,18 @@ from email.mime.multipart import MIMEMultipart
 
 def outage(sites, downCount):
 
-    msg = MIMEMultipart("alternative")
-    msg['Subject'] = 'Website outage detected!'
-    msg['From'] = 'EP Uptime Monitor'
-    msg['To'] = 'njoker555@gmail.com'
-
     # Config values
     username = cred.EMAIL_CONFIG['username']
     password = cred.EMAIL_CONFIG['password']
-    port =  cred.EMAIL_CONFIG['port']
+    port = cred.EMAIL_CONFIG['port']
     smtpServer = cred.EMAIL_CONFIG['smtpServer']
     sender = cred.EMAIL_CONFIG['sender']
     recipient = cred.EMAIL_CONFIG['recipient']
+
+    msg = MIMEMultipart("alternative")
+    msg['Subject'] = 'Website outage detected!'
+    msg['From'] = 'EP Uptime Monitor'
+    msg['To'] = recipient
 
     html = """
         The following websites have been detected to be down, please check the %s website(s) immediately: <br />
