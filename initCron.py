@@ -69,7 +69,7 @@ def cronGreenLedWeekendOff():
 def cronOutageEmail():
     job = user_cron.new(command='cd /home/pi/uptime; /home/pi/uptime/venv/bin/python3 /home/pi/uptime/cronOutage.py',
                         comment='emailNotification')
-    job.setall('1,16,31,46 * * * *')
+    job.setall('1-46/15 * * * *')
     user_cron.write()
     db.addCron('outageEmail', 'Green LED Off Weekend', '1-46/15 * * * *', 'cronGreenLed.py', 1)
 
