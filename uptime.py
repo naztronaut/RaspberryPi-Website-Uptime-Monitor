@@ -13,6 +13,7 @@ global downSites
 downSites = []
 
 
+# Main method - reads the list of sites in sites.txt and checks using isItUp() method
 def sites():
     global js
     global totalSites
@@ -37,19 +38,8 @@ def sites():
     return json.dumps(js)
 
 
-def updateDownSites():
-    for site in downSites:
-        # insert into `downsitesCount` table and increment downCount by 1 if applicable
-        db.insertDownSite(site)
-
-
-def checkSite():
-    for site in upSites:
-        # check the downsiteCount table for all sites in the upSites[] list - 
-        # if record exists, then it'll set the downCount to 0
-        db.checkSite(site)
-
-
+# Does an HTTP GET on the site URLs being passed and looks for status code 200 and a JSON file with a property
+# of 'site' which has the URL of the current JSON file
 def isItUp(site):
     upSites = []
     downSites = []
@@ -81,27 +71,7 @@ def isItUp(site):
         dataOutput(site, 'down')
 
 
-def changeLight(color, status):
-    # will only turn on green led if it hasn't been turned off by the cron jobs at night
-    # red and yellow lights are not affected by those values
-    if (color == green and rdb.getLedStatus('green') == 1) or color == red or color == yellow:
-        if status == "high":
-            output = GPIO.HIGH
-            # Only affect red and yellow lights
-            if color == red or color == yellow:
-                db.changeLedStatus(color, 1)
-        else:
-            output = GPIO.LOW
-            # Only affect red and yellow lights
-            if color == red or color == yellow:
-                db.changeLedStatus(color, 0)
-
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setwarnings(False)
-        GPIO.setup(color, GPIO.OUT)
-        GPIO.output(color, output)
-
-
+# Outputting data to database tables as well as to lights
 def dataOutput(site, status):
     if status == 'up':
         upSites.append(site.replace('\n', ''))
@@ -131,5 +101,43 @@ def dataOutput(site, status):
         changeLight(green, 'high')
     else:
         changeLight(green, 'low')
+
+
+# Changes LED on/off status
+def changeLight(color, status):
+    # will only turn on green led if it hasn't been turned off by the cron jobs at night
+    # red and yellow lights are not affected by those values
+    if (color == green and rdb.getLedStatus('green') == 1) or color == red or color == yellow:
+        if status == "high":
+            output = GPIO.HIGH
+            # Only affect red and yellow lights
+            if color == red or color == yellow:
+                db.changeLedStatus(color, 1)
+        else:
+            output = GPIO.LOW
+            # Only affect red and yellow lights
+            if color == red or color == yellow:
+                db.changeLedStatus(color, 0)
+
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setwarnings(False)
+        GPIO.setup(color, GPIO.OUT)
+        GPIO.output(color, output)
+
+
+# Inserts data into downtimeCounts() table to either add or update the number of times a site has failed to respond
+def updateDownSites():
+    for site in downSites:
+        # insert into `downsitesCount` table and increment downCount by 1 if applicable
+        db.insertDownSite(site)
+
+
+# Check sites in upSites to against the downsiteCounts table to see if a site has come back to life
+def checkSite():
+    for site in upSites:
+        # check the downsiteCount table for all sites in the upSites[] list - 
+        # if record exists, then it'll set the downCount to 0
+        db.checkSite(site)
+
 
 #sites()
