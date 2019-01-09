@@ -12,10 +12,13 @@ def outage(sites, downCount):
     msg['From'] = 'EP Uptime Monitor'
     msg['To'] = 'njoker555@gmail.com'
 
+    # Config values
     username = cred.EMAIL_CONFIG['username']
     password = cred.EMAIL_CONFIG['password']
     port =  cred.EMAIL_CONFIG['port']
     smtpServer = cred.EMAIL_CONFIG['smtpServer']
+    sender = cred.EMAIL_CONFIG['sender']
+    recipient = cred.EMAIL_CONFIG['recipient']
 
     html = """
         The following websites have been detected to be down, please check the %s website(s) immediately: <br />
@@ -38,6 +41,6 @@ def outage(sites, downCount):
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL(smtpServer, port, context=context) as server:
             server.login(username, password)
-            server.sendmail('epuptime@gmail.com', 'njoker555@gmail.com', msg.as_string())
+            server.sendmail(sender, recipient, msg.as_string())
 
 # outage(['easyprogramming', 'postsession'], 3)
