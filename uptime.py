@@ -88,8 +88,14 @@ def changeLight(color, status):
     if (color == green and rdb.getLedStatus('green') == 1) or color == red or color == yellow:
         if status == "high":
             output = GPIO.HIGH
+            # Only affect red and yellow lights
+            if color == red or color == yellow:
+                db.changeLedStatus(color, 1)
         else:
             output = GPIO.LOW
+            # Only affect red and yellow lights
+            if color == red or color == yellow:
+                db.changeLedStatus(color, 0)
 
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
