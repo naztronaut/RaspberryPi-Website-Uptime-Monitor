@@ -1,6 +1,6 @@
 import MySQLdb
 import MySQLdb.cursors
-import database.config as config
+import config.config as config
 import json
 import datetime
 

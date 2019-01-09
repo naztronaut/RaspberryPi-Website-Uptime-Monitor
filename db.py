@@ -1,5 +1,5 @@
 import MySQLdb
-import database.config as config
+import config.config as config
 
 # db = MySQLdb.connect("localhost","uptime","password123!","uptime")
 db = MySQLdb.connect(config.DATABASE_CONFIG['host'], config.DATABASE_CONFIG['dbuser'], config.DATABASE_CONFIG['dbpass'],
