@@ -112,12 +112,12 @@ def changeLight(color, status):
             output = GPIO.HIGH
             # Only affect red and yellow lights
             if color == red or color == yellow:
-                db.changeLedStatus(color, 1)
+                db.changeLedStatus(str(color), 1)
         else:
             output = GPIO.LOW
             # Only affect red and yellow lights
             if color == red or color == yellow:
-                db.changeLedStatus(color, 0)
+                db.changeLedStatus(str(color), 0)
 
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
