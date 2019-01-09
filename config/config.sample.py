@@ -7,3 +7,10 @@ DATABASE_CONFIG = {
     'dbuser' : 'DATABASE_USER',
     'dbpass' : 'DATABASE_PASSWORD'
 }
+
+EMAIL_CONFIG = {
+    'username': '<USERNAME>',
+    'password': '<PASSWORD>',
+    'smtpServer': 'smtp.gmail.com',
+    'port': 465
+}

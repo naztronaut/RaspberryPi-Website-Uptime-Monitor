@@ -14,7 +14,8 @@ def outage(sites, downCount):
 
     username = cred.EMAIL_CONFIG['username']
     password = cred.EMAIL_CONFIG['password']
-    port = 465
+    port =  cred.EMAIL_CONFIG['port']
+    smtpServer = cred.EMAIL_CONFIG['smtpServer']
 
     html = """
         The following websites have been detected to be down, please check the %s website(s) immediately: <br />
@@ -35,7 +36,7 @@ def outage(sites, downCount):
     # db.addNotification(html.as_string())
 
     context = ssl.create_default_context()
-    with smtplib.SMTP_SSL("smtp.gmail.com", port, context=context) as server:
+    with smtplib.SMTP_SSL(smtpServer, port, context=context) as server:
             server.login(username, password)
             server.sendmail('epuptime@gmail.com', 'njoker555@gmail.com', msg.as_string())
 

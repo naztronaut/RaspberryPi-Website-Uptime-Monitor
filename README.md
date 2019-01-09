@@ -57,8 +57,35 @@ If you go to the above  URL, you will find that JSON file with that properly. Yo
 
 Avoid having a blank line in your `sites.txt` file. I may put all of this in database tables at some point in the future.  
 
-### Database
-Before continuing, we should create a database using the schema included in database/schema.sql. Before creating the schema, `cd` into the database directory and edit the `config.sample.py` and update configurations with the database that you'll create in the next step:
+### Configuration
+
+The below configurations are located in `config/config.sample.py` - before continuing, rename the file to `config.py` and adjust the values below. There are two main configuration categorie: Database and Email. 
+
+To rename the file, run this command:
+
+```bash
+mv config.sample.py config.py
+```
+
+### Email Config
+
+If you want to use the email functionality, edit the `EMAIL_CONFIG` object in `config.py` and enter your username and password. The Mail server and Port are also configurable. 
+By default, this app uses Gmail as the mail server and port 465 for SSL. Feel free to change the values to your own specs. Recommended to keep port as the SSL port. 
+
+```python
+EMAIL_CONFIG = {
+    'username': '<USERNAME>',
+    'password': '<PASSWORD>',
+    'smtpServer': 'smtp.gmail.com',
+    'port': 465
+}
+```  
+
+Once you've made the edits, move onto the database config. 
+
+## Database Config
+
+Before creating the schema, edit `config/config.py` and update the `DATABASE_CONFIG` configurations with the database that you'll create in the next step:
 
 ```python
 DATABASE_CONFIG = {
@@ -71,11 +98,8 @@ DATABASE_CONFIG = {
 
 By default, the database name is `uptime` - if you want to use another name, change it. Update the `dbuser` and `dbpass` properties with the credentials that the database will use.
 
-After making the change, rename `config.sample.py` to `config.py`. You can use the following command to change the name:
 
-```bash
-mv config.sample.py config.py
-```
+
 
 If you change the database name, make sure to edit schema.sql with `nano schema.sql` and update the name in the first two lines:
 
