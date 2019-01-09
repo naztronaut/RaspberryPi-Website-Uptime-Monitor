@@ -7,7 +7,6 @@ import reporting_db as rdb
 green = 12
 yellow = 25
 red = 18
-# hard coded number of sites
 global upSites
 upSites = []
 global downSites
