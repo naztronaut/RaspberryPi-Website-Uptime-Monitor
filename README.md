@@ -39,7 +39,11 @@ If you haven't already, first clone this repository:
 git clone https://github.com/naztronaut/RaspberryPi-Website-Uptime-Monitor.git
 ```
 
-For simplicity's sake, I recommend changing the name of the directory/repo to `uptime` as I've done it in and will be using for the rest of this guide. 
+For simplicity's sake, I recommend changing the name of the directory/repo to `uptime` as I've done it in and will be using for the rest of this guide. You can do so easily with this command:
+
+```bash
+mv RaspberryPi-Website-Uptime-Monitor uptime
+```
 
 ### Website List (up.json)
 
@@ -57,8 +61,38 @@ If you go to the above  URL, you will find that JSON file with that properly. Yo
 
 Avoid having a blank line in your `sites.txt` file. I may put all of this in database tables at some point in the future.  
 
-### Database
-Before continuing, we should create a database using the schema included in database/schema.sql. Before creating the schema, `cd` into the database directory and edit the `config.sample.py` and update configurations with the database that you'll create in the next step:
+### Configuration
+
+The below configurations are located in `config/config.sample.py` - before continuing, rename the file to `config.py` and adjust the values below. There are two main configuration categorie: Database and Email. 
+
+To rename the file, run this command:
+
+```bash
+mv config.sample.py config.py
+```
+
+### Email Config
+
+If you want to use the email functionality, edit the `EMAIL_CONFIG` object in `config.py` and enter your username and password. The Mail server and Port are also configurable. 
+By default, this app uses Gmail as the mail server and port 465 for SSL. Feel free to change the values to your own specs. Recommended to keep port as the SSL port. And finally, 
+edit the sender with your email address and recipient as whoever wants to receive the notification. This app currently only allows one recipient. 
+
+```python
+EMAIL_CONFIG = {
+    'username': '<USERNAME>',
+    'password': '<PASSWORD>',
+    'smtpServer': 'smtp.gmail.com',
+    'port': 465,
+    'sender': 'Email of who will send it',
+    'recipient': 'Email of who will receive it'
+}
+```  
+
+Once you've made the edits, move onto the database config. 
+
+## Database Config
+
+Before creating the schema, edit `config/config.py` and update the `DATABASE_CONFIG` configurations with the database that you'll create in the next step:
 
 ```python
 DATABASE_CONFIG = {
@@ -71,12 +105,6 @@ DATABASE_CONFIG = {
 
 By default, the database name is `uptime` - if you want to use another name, change it. Update the `dbuser` and `dbpass` properties with the credentials that the database will use.
 
-After making the change, rename `config.sample.py` to `config.py`. You can use the following command to change the name:
-
-```bash
-mv config.sample.py config.py
-```
-
 If you change the database name, make sure to edit schema.sql with `nano schema.sql` and update the name in the first two lines:
 
 ```sql
@@ -84,7 +112,8 @@ CREATE DATABASE `uptime`;
 USE `uptime`;
 ```
 
-The Schema also includes a `ledStatus` table that stores the current status of the LEDs. The default pins listed above are used. If you are using other GPIO Pins, please update the `INSERT` query on line 61 to the GPIO Pin Id that you are using:
+The Schema also includes a `ledStatus` table that stores the current status of the LEDs. The default pins listed above are used. If you are using other GPIO Pins, 
+please update the `INSERT` query on line 61 to the GPIO Pin Id that you are using:
 
 ```sql
 INSERT INTO ledStatus (color, pin, status) VALUES ('red', 18, 0),('yellow',25,0),('green',12,0);
@@ -114,13 +143,40 @@ Let's install five more dependencies. Installing flask right away isn't necessar
 pip install RPi.GPIO flask mysqlclient requests python-crontab
 ```
 
+## Initialize Cron jobs
+
+This app runs automatically via cron jobs. You can initialize some Cron Jobs that are put in place. Before proceeding, edit the `initCron.py` file and edit the two instances of the directory called `uptime` on 
+line 17 to whatever you called your repository.
+
+After making the edit, run the script with the following command:
+
+```bash
+python3 initCron.py
+```
+
+This script will add the cron jobs listed below to crontab as well as to the `cronSettings` MySQL table:
+
+- Check Sites - by default, this will check sites every 15 minutes to see if they are online
+- Turn Off Green LED - by default, the Green LED will be turned off between 12:30 AM and 5:30 PM on weekdays and 1 am and 8 am on weekends. 
+This is the assumption that you will not be home to see the light. This will NOT affect the red and yellow lights. You can change the values in the init file or later in the crontab. 
+- Emails - a cron will run 1 minute after the sites are checked to get a count of how many times a particular site has been down. If a site has been reported down 3 times in a row, 
+it will trigger an email from the sender to recipient email address as specified in `config.py`.
+
+Currently, the initCron.py can only be run once without error and should be done in the beginning. If you run it again, it will edit the crontab correctly, however, the database will not override. 
+Future fix will mean t hat when you run the `initCron.py` script, it'll override all values.
+
 ### Run Flask APP
-Running a flask app is fairly simple. Once you have flask installed in your virtual environment, let's run this command:
+
+**Note:** _The flask app is still under construction. So far, a few web service end points have been created. More will be added._  
+
+Running a flask app is fairly simple. The controller for the Flask app is `upService.py`. Once you have flask installed in your virtual environment, you can start flask with the following commands:
+
 ```bash
 export FLASK_APP=upService.py
 ```
 
-Then when we are done, let's run the actual flask app:
+Then run the actual flask app:
+
 ```bash
 flask run --host=0.0.0.0
 ```
@@ -130,29 +186,12 @@ substitute `ip_addr` for the IP address for your pi. Hostname will also work in 
 
 Details on the Flask app will be posted later. 
 
-## Initialize Cron jobs
-
-You can initialize some Cron Jobs that are put in place. Before proceeding, edit the `initCron.py` folder and edit the two instances of the directory called `uptime` on line 17 to whatever you called your repository.
-
-After making the edit, run the script with the following command:
-
-```bash
-python3 initCron.py
-```
-
-This script will add the cron jobs listed below to crontab as well as to the cronSettings MySQL table:
-
-- Check Sites - by default, this will check sites every 10 minutes to see if they are online
-- Turn Off Green LED - by default, the Green LED will be turned off between 12:30 AM and 5:30 PM. This is the assumption that you will not be home to see the light. This will NOT affect the red and yellow lights.
-At the moment, this  happens every day. I will update to have different hours for weekends. 
-- TBD Emails
-
 ## Backlog items:
 
 1. Web service access (currently in process as a Flask app)
-2. Database integration - for reporting purposes (in progress)
-3. Cron Jobs (in progress)
-4. Notification via email 
+2. Database integration - for reporting purposes (COMPLETE)
+3. Cron Jobs (COMPLETE)
+4. Notification via email (Partially Complete) 
  
 
 ## Authors

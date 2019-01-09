@@ -1,6 +1,6 @@
 import MySQLdb
 import MySQLdb.cursors
-import database.config as config
+import config.config as config
 import json
 import datetime
 
@@ -40,6 +40,12 @@ def getDowntimeCounts(page, limit):
     return data
 
 
+def getDownTimeCountsGreaterThanThree():
+    cursor.execute("""SELECT * FROM downtimeCounts where downCount >= 3""")
+    data = cursor.fetchall()
+    return data
+
+
 def timeConverter(t):
     if isinstance(t, datetime.datetime):
         return t.__str__()
@@ -49,6 +55,3 @@ def getLedStatus(color):
     cursor.execute("""SELECT status FROM ledStatus where color = %s""", [color])
     data = cursor.fetchone()
     return data['status']
-
-
-getLedStatus('green')

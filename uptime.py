@@ -7,13 +7,13 @@ import reporting_db as rdb
 green = 12
 yellow = 25
 red = 18
-# hard coded number of sites
 global upSites
 upSites = []
 global downSites
 downSites = []
 
 
+# Main method - reads the list of sites in sites.txt and checks using isItUp() method
 def sites():
     global js
     global totalSites
@@ -38,62 +38,40 @@ def sites():
     return json.dumps(js)
 
 
-def updateDownSites():
-    for site in downSites:
-        # insert into `downsitesCount` table and increment downCount by 1 if applicable
-        db.insertDownSite(site)
-
-
-def checkSite():
-    for site in upSites:
-        # check the downsiteCount table for all sites in the upSites[] list - 
-        # if record exists, then it'll set the downCount to 0
-        db.checkSite(site)
-
-
+# Does an HTTP GET on the site URLs being passed and looks for status code 200 and a JSON file with a property
+# of 'site' which has the URL of the current JSON file
 def isItUp(site):
     upSites = []
     downSites = []
     site = site.replace('\n', '')
 
-    data = requests.get(site)
-
     # only proceed if page loads successfully with status code of 200
-    if data.status_code == 200:
-        resp = data.text
-        parsed = json.loads(resp)
-        # if siteUrl property matches the site url passed, then it'll return a 1, otherwise the page gets a 200 but
-        # for some reason, the json file isn't being read
-        try:
-            if parsed['site'] == site:
-                upSites.append(site)
-                dataOutput(site, 'up')
-            else:
+    try:
+        data = requests.get(site)
+        if data.status_code == 200:
+            resp = data.text
+            parsed = json.loads(resp)
+            # if siteUrl property matches the site url passed, then it'll return a 1, otherwise the page gets a 200 but
+            # for some reason, the json file isn't being read
+            try:
+                if parsed['site'] == site:
+                    upSites.append(site)
+                    dataOutput(site, 'up')
+                else:
+                    downSites.append(site)
+                    dataOutput(site, 'down')
+            except:
                 downSites.append(site)
                 dataOutput(site, 'down')
-        except:
+        else:
             downSites.append(site)
             dataOutput(site, 'down')
-    else:
+    except:
         downSites.append(site)
         dataOutput(site, 'down')
 
 
-def changeLight(color, status):
-    # will only turn on green led if it hasn't been turned off by the cron jobs at night
-    # red and yellow lights are not affected by those values
-    if (color == green and rdb.getLedStatus('green') == 1) or color == red or color == yellow:
-        if status == "high":
-            output = GPIO.HIGH
-        else:
-            output = GPIO.LOW
-
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setwarnings(False)
-        GPIO.setup(color, GPIO.OUT)
-        GPIO.output(color, output)
-
-
+# Outputting data to database tables as well as to lights
 def dataOutput(site, status):
     if status == 'up':
         upSites.append(site.replace('\n', ''))
@@ -123,5 +101,47 @@ def dataOutput(site, status):
         changeLight(green, 'high')
     else:
         changeLight(green, 'low')
+
+
+# Changes LED on/off status
+def changeLight(color, status):
+    # will only turn on green led if it hasn't been turned off by the cron jobs at night
+    # red and yellow lights are not affected by those values
+    if (color == green and rdb.getLedStatus('green') == 1) or color == red or color == yellow:
+        if status == "high":
+            output = GPIO.HIGH
+            # Only affect red and yellow lights
+            if color == red:
+                db.changeLedStatus('red', 1)
+            elif color == yellow:
+                db.changeLedStatus('yellow', 1)
+        else:
+            output = GPIO.LOW
+            # Only affect red and yellow lights
+            if color == red:
+                db.changeLedStatus('red', 0)
+            elif color == yellow:
+                db.changeLedStatus('yellow', 0)
+
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setwarnings(False)
+        GPIO.setup(color, GPIO.OUT)
+        GPIO.output(color, output)
+
+
+# Inserts data into downtimeCounts() table to either add or update the number of times a site has failed to respond
+def updateDownSites():
+    for site in downSites:
+        # insert into `downsitesCount` table and increment downCount by 1 if applicable
+        db.insertDownSite(site)
+
+
+# Check sites in upSites to against the downsiteCounts table to see if a site has come back to life
+def checkSite():
+    for site in upSites:
+        # check the downsiteCount table for all sites in the upSites[] list - 
+        # if record exists, then it'll set the downCount to 0
+        db.checkSite(site)
+
 
 #sites()
