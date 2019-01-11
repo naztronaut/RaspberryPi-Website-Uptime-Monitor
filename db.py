@@ -98,8 +98,8 @@ def changeLedStatus(color, status):
 # Add new cronjob to database
 def addCron(comment, cronName, cronVal, cronScript, enabled):
         cursor.execute("""INSERT INTO cronSettings (comment, cronName, cronVal, cronScript, enabled) 
-                        VALUES (%s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE cronVal = %s, enabled = %s""",
-                       (comment, cronName, cronVal, cronScript, enabled, cronVal, enabled))
+                        VALUES (%s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE cronName = %s, cronVal = %s, 
+                        enabled = %s""", (comment, cronName, cronVal, cronScript, enabled, cronName, cronVal, enabled))
         db.commit()
 
 
