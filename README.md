@@ -154,16 +154,24 @@ After making the edit, run the script with the following command:
 python3 initCron.py
 ```
 
-This script will add the cron jobs listed below to crontab as well as to the `cronSettings` MySQL table:
+This script will add the cron jobs listed below to crontab as well as to the `cronSettings` MySQL table. Running `initCron.py` will clear your crontab and rewrite all defaults.
 
-- Check Sites - by default, this will check sites every 15 minutes to see if they are online
-- Turn Off Green LED - by default, the Green LED will be turned off between 12:30 AM and 5:30 PM on weekdays and 1 am and 8 am on weekends. 
+Current Cronjobs:
+
+- **Check Sites** - by default, this will check sites every 15 minutes to see if they are online
+- **Enable/Disable Green LED** - by default, the Green LED will be turned off between 12:30 AM and 5:30 PM on weekdays and 1 am and 8 am on weekends. 
 This is the assumption that you will not be home to see the light. This will NOT affect the red and yellow lights. You can change the values in the init file or later in the crontab. 
-- Emails - a cron will run 1 minute after the sites are checked to get a count of how many times a particular site has been down. If a site has been reported down 3 times in a row, 
+- **Email Notification** - a cron will run 1 minute after the sites are checked to get a count of how many times a particular site has been down. If a site has been reported down 3 times in a row, 
 it will trigger an email from the sender to recipient email address as specified in `config.py`.
 
-Currently, the initCron.py can only be run once without error and should be done in the beginning. If you run it again, it will edit the crontab correctly, however, the database will not override. 
-Future fix will mean t hat when you run the `initCron.py` script, it'll override all values.
+If you want to add or update your cron after you've run `initCron.py`, you can easily edit the official crontab with the following command:
+
+```bash
+crontab -e
+```
+
+You can also update the database manually. You can also edit the `initCron.py` file and add a new method or edit an old one with your Cron settings and re-run the `initCron.py` script. 
+I will add a way to programmatically update your settings in the future.  
 
 ### Run Flask APP
 
@@ -188,11 +196,14 @@ Details on the Flask app will be posted later.
 
 ## Backlog items:
 
-1. Web service access (currently in process as a Flask app)
+1. Web service access (currently in progress as a Flask app)
 2. Database integration - for reporting purposes (COMPLETE)
 3. Cron Jobs (COMPLETE)
-4. Notification via email (Partially Complete) 
+4. Ability to add and update cron jobs programmatically (not started)
+5. Notification via email (Mostly Complete) 
+6. Front-End UI (not started - Planning on creating a separate Angular app that consumes the Flask Web Service endpoints) 
  
+Want to add an item to the backlog? Submit an issue. 
 
 ## Authors
 
