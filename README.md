@@ -34,16 +34,32 @@ red = 18
 ## Installation
 The following commands is a rough draft of what needs to be done to install all dependencies.
 
-If you haven't already, first clone this repository:
+If you haven't already, You can either clone this repository or download the latest release. To clone the repo run this command:
 ```bash
 git clone https://github.com/naztronaut/RaspberryPi-Website-Uptime-Monitor.git
+```
+
+To get the latest release, check out the Latest Releases: https://github.com/naztronaut/RaspberryPi-Website-Uptime-Monitor/releases/latest
+
+At the time of this update, the latest version is version `Alpha 0.2.3`. To get this directly, run the following commands:
+
+```bash
+wget https://github.com/naztronaut/RaspberryPi-Website-Uptime-Monitor/archive/0.2.3-alpha.zip
+```
+
+Then unzip it with:
+
+```bash
+unzip 0.2.3-alpha.zip
 ```
 
 For simplicity's sake, I recommend changing the name of the directory/repo to `uptime` as I've done it in and will be using for the rest of this guide. You can do so easily with this command:
 
 ```bash
-mv RaspberryPi-Website-Uptime-Monitor uptime
+mv RaspberryPi-Website-Uptime-Monitor-0.2.3-alpha uptime
 ```
+
+Update the directory name as needed. 
 
 ### Website List (up.json)
 
