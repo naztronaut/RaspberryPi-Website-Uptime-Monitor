@@ -1,3 +1,0 @@
-import uptime
-
-uptime.sites()
