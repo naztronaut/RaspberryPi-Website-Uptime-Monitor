@@ -26,7 +26,6 @@ def outage(sites, downCount):
         The following websites have been detected to be down, please check the %s website(s) immediately: <br />
     """ % (downCount)
 
-    print(sites[0]['site'])
     html += "<ul>"
     for site in sites:
         html += """
@@ -46,4 +45,4 @@ def outage(sites, downCount):
             server.login(username, password)
             server.sendmail(sender, recipient, msg.as_string())
 
-outage(["{'site': 'easyprogramming', 'downCount': 3}"], 3)
+# outage(["{'site': 'easyprogramming', 'downCount': 3}"], 3)
