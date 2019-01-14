@@ -38,11 +38,9 @@ def outage(sites, downCount):
     msg.attach(emailMsg)
 
     # Add to database - to fix later, currently cannot hold html
-    # db.addNotification(str(sites))
+    db.addNotification(str(sites))
 
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL(smtpServer, port, context=context) as server:
             server.login(username, password)
             server.sendmail(sender, recipient, msg.as_string())
-
-outage("[{'created_at': datetime.datetime(2019, 1, 13, 19, 37, 24, 165000), 'id': 1, 'site': 'https://nazm.us/up.json', 'downCount': 3}]", 3)
