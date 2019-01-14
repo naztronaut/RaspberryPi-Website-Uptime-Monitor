@@ -45,10 +45,10 @@ def outage(sites, downCount):
     # db.addNotification(str(dbSites))
 
     context = ssl.create_default_context()
-    with smtplib.SMTP_SSL(smtpServer, port, context=context) as server:
-            server.login(username, password)
-            try:
+    try:
+        with smtplib.SMTP_SSL(smtpServer, port, context=context) as server:
+                server.login(username, password)
                 server.sendmail(sender, recipient, msg.as_string())
                 db.addNotification(dbSites, 'success')
-            except:
-                db.addNotification(dbSites, 'fail')
+    except:
+        db.addNotification(dbSites, 'fail')
