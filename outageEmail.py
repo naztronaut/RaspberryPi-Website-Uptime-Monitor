@@ -26,6 +26,7 @@ def outage(sites, downCount):
         The following websites have been detected to be down, please check the %s website(s) immediately: <br />
     """ % (downCount)
 
+    print(sites)
     html += "<ul>"
     for site in sites:
         html += """
