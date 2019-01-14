@@ -41,7 +41,7 @@ def outage(sites, downCount):
     msg.attach(emailMsg)
 
     # Add to database - to fix later, currently cannot hold html
-    print(sites)
+    print(dbSites)
     # db.addNotification(dbSites)
 
     context = ssl.create_default_context()
