@@ -17,7 +17,7 @@ def outage(sites, downCount):
     sender = cred.EMAIL_CONFIG['sender']
     recipient = cred.EMAIL_CONFIG['recipient']
 
-    # dbSites = []
+    dbSites = []
 
     msg = MIMEMultipart("alternative")
     msg['Subject'] = 'Website outage detected!'
@@ -33,7 +33,7 @@ def outage(sites, downCount):
         html += """
             <li>%s - check failed %s times</li> 
         """ % (site['site'], site['downCount'])
-        # dbSites.append(site['site'])
+        dbSites.append(site['site'])
     html += "</ul>"
 
     emailMsg = MIMEText(html, "html")
@@ -47,5 +47,8 @@ def outage(sites, downCount):
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL(smtpServer, port, context=context) as server:
             server.login(username, password)
-            returned = server.sendmail(sender, recipient, msg.as_string())
-            print(returned)
+            try:
+                server.sendmail(sender, recipient, msg.as_string())
+                db.addNotification(dbSites, 'success')
+            except:
+                db.addNotification(dbSites, 'fail')
