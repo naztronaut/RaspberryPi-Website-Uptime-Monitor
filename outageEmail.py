@@ -33,7 +33,7 @@ def outage(sites, downCount):
         html += """
             <li>%s - check failed %s times</li> 
         """ % (site['site'], site['downCount'])
-        dbSites.append(site['site'])
+        dbSites.append(str(site['site']))
     html += "</ul>"
 
     emailMsg = MIMEText(html, "html")
