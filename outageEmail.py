@@ -45,4 +45,4 @@ def outage(sites, downCount):
             server.login(username, password)
             server.sendmail(sender, recipient, msg.as_string())
 
-outage("['site': 'easyprogramming']", 3)
+outage("[{'site': 'easyprogramming'}]", 3)
