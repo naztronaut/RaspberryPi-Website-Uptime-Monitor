@@ -38,7 +38,7 @@ def outage(sites, downCount):
     msg.attach(emailMsg)
 
     # Add to database - to fix later, currently cannot hold html
-    db.addNotification("".join(str(site['site']) for site in sites))
+    db.addNotification("".join(site['site'] for site in sites))
 
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL(smtpServer, port, context=context) as server:
