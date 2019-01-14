@@ -42,7 +42,7 @@ def outage(sites, downCount):
 
     # Add to database - to fix later, currently cannot hold html
     print(str(dbSites))
-    db.addNotification(dbSites)
+    db.addNotification(str(dbSites))
 
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL(smtpServer, port, context=context) as server:
