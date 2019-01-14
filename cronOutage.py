@@ -13,5 +13,4 @@ if len(data) > 0:
         if item['downCount'] >= 3 and item['downCount'] % 3 == 0:
             count += 1
             downSites.append(item)
-    print(downSites)
     oe.outage(downSites, count)

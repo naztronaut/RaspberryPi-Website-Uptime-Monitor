@@ -45,4 +45,4 @@ def outage(sites, downCount):
             server.login(username, password)
             server.sendmail(sender, recipient, msg.as_string())
 
-# outage(["{'site': 'easyprogramming', 'downCount': 3}"], 3)
+outage("[{'created_at': datetime.datetime(2019, 1, 13, 19, 37, 24, 165000), 'id': 1, 'site': 'https://nazm.us/up.json', 'downCount': 3}]", 3)
