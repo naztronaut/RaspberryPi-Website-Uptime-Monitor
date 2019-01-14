@@ -33,7 +33,7 @@ def outage(sites, downCount):
         html += """
             <li>%s - check failed %s times</li> 
         """ % (site['site'], site['downCount'])
-        dbSites.append(str(site['site']))
+        dbSites.append(site['site'])
     html += "</ul>"
 
     emailMsg = MIMEText(html, "html")
@@ -41,7 +41,7 @@ def outage(sites, downCount):
     msg.attach(emailMsg)
 
     # Add to database - to fix later, currently cannot hold html
-    print(dbSites)
+    print(str(dbSites))
     db.addNotification(dbSites)
 
     context = ssl.create_default_context()
