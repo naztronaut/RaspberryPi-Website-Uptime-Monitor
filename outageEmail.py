@@ -47,4 +47,5 @@ def outage(sites, downCount):
     context = ssl.create_default_context()
     with smtplib.SMTP_SSL(smtpServer, port, context=context) as server:
             server.login(username, password)
-            server.sendmail(sender, recipient, msg.as_string())
+            returned = server.sendmail(sender, recipient, msg.as_string())
+            print(returned)
