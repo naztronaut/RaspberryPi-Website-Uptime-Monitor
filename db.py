@@ -125,7 +125,7 @@ def updateCron(comment, cronVal):
 
 def addNotification(text, status):
     print(str(text))
-    cursor.execute("""INSERT INTO notifications (content, status) VALUES (%s, $s)""", (str(text), status))
+    cursor.execute("""INSERT INTO notifications (content, status) VALUES (%s, $s)""", (text, status))
     db.commit()
 
 
@@ -134,3 +134,6 @@ def addNotification(text, status):
 # End Notifications Queries                                                               #
 #                                                                                         #
 ###########################################################################################
+
+# Testing
+addNotification('test', 'fail')
