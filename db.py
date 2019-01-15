@@ -136,4 +136,4 @@ def addNotification(content, status):
 ###########################################################################################
 
 # Testing
-addNotification('test', 'fail')
+addNotification(['test', 'blah'], 'fail')
