@@ -16,7 +16,6 @@ def homePage():
 # Manually updates all statuses and updates the database
 @app.route('/updateStatus', methods=['GET'])
 def getJson():
-        #print(uptime.sites())
         data = json.loads(uptime.sites())
         return data
 
@@ -50,4 +49,18 @@ def getDowntimeCounts():
     page = request.args.get('page',default=1,type=int)
     limit = request.args.get('limit',default=25,type=int)
     data = db.getOutages(page, limit)
+    return jsonify(data)
+
+
+@app.route('/getCron', methods=['GET'])
+def getCron():
+    data = db.getCronSettings()
+    return jsonify(data)
+
+
+@app.route('/getNotifications', methods=['GET'])
+def getNotifications():
+    page = request.args.get('page', default=1, type=int)
+    limit = request.args.get('limit', default=25, type=int)
+    data = db.getNotifications(page, limit)
     return jsonify(data)
