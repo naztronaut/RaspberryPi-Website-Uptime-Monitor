@@ -6,6 +6,9 @@ from email.mime.multipart import MIMEMultipart
 
 import db
 
+global downSites
+downSites = []
+
 
 def outage(sites, downCount):
 
@@ -16,8 +19,6 @@ def outage(sites, downCount):
     smtpServer = cred.EMAIL_CONFIG['smtpServer']
     sender = cred.EMAIL_CONFIG['sender']
     recipient = cred.EMAIL_CONFIG['recipient']
-
-    dbSites = []
 
     msg = MIMEMultipart("alternative")
     msg['Subject'] = 'Website outage detected!'
@@ -33,7 +34,7 @@ def outage(sites, downCount):
         html += """
             <li>%s - check failed %s times</li> 
         """ % (site['site'], site['downCount'])
-        dbSites.append(site['site'])
+        downSites.append(site['site'])
     html += "</ul>"
 
     emailMsg = MIMEText(html, "html")
@@ -49,7 +50,7 @@ def outage(sites, downCount):
         with smtplib.SMTP_SSL(smtpServer, port, context=context) as server:
                 server.login(username, password)
                 server.sendmail(sender, recipient, msg.as_string())
-                # db.addNotification(str(dbSites), 'success')
+                db.addNotification(str(downSites), 'success')
     except:
         print('Error sending email')
-        #db.addNotification(dbSites, 'fail')
+        db.addNotification(downSites, 'fail')
