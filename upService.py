@@ -36,12 +36,14 @@ def getActivity():
     data = db.getActivity(page, limit)
     return jsonify(data)
 
+
 @app.route('/getOutages', methods=['GET'])
 def getOutages():
     page = request.args.get('page',default=1,type=int)
     limit = request.args.get('limit',default=25,type=int)
     data = db.getOutages(page, limit)
     return jsonify(data)
+
 
 @app.route('/getDowntimeCounts', methods=['GET'])
 def getDowntimeCounts():
