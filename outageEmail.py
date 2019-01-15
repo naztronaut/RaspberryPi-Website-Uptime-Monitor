@@ -51,6 +51,7 @@ def outage(sites, downCount):
                 server.login(username, password)
                 server.sendmail(sender, recipient, msg.as_string())
                 db.addNotification(str(downSites), 'success')
+                print('Email Sent successfully')
     except:
         print('Error sending email')
         db.addNotification(downSites, 'fail')
