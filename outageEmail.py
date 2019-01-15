@@ -50,8 +50,8 @@ def outage(sites, downCount):
         with smtplib.SMTP_SSL(smtpServer, port, context=context) as server:
                 server.login(username, password)
                 server.sendmail(sender, recipient, msg.as_string())
-                db.addNotification('sites not recorded', 'success')
+                db.addNotification(str(downSites), 'success')
                 print('Email Sent successfully')
     except:
         print('Error sending email')
-        db.addNotification('sites not recorded', 'fail')
+        db.addNotification(str(downSites), 'fail')
