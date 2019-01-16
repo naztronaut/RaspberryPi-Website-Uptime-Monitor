@@ -2,7 +2,8 @@ from flask import Flask, jsonify, request
 import subprocess
 import uptime
 import json
-import reporting_db as db
+import db
+import reporting_db as rdb
 
 
 app = Flask(__name__)
@@ -24,7 +25,7 @@ def getJson():
 def getCurrentStatus():
     page = request.args.get('page',default=1,type=int)
     limit = request.args.get('limit',default=10,type=int)
-    data = db.getCurrentStatus(page, limit)
+    data = rdb.getCurrentStatus(page, limit)
     return jsonify(data)
 
 
@@ -32,7 +33,7 @@ def getCurrentStatus():
 def getActivity():
     page = request.args.get('page',default=1,type=int)
     limit = request.args.get('limit',default=25,type=int)
-    data = db.getActivity(page, limit)
+    data = rdb.getActivity(page, limit)
     return jsonify(data)
 
 
@@ -40,7 +41,7 @@ def getActivity():
 def getOutages():
     page = request.args.get('page',default=1,type=int)
     limit = request.args.get('limit',default=25,type=int)
-    data = db.getOutages(page, limit)
+    data = rdb.getOutages(page, limit)
     return jsonify(data)
 
 
@@ -48,13 +49,13 @@ def getOutages():
 def getDowntimeCounts():
     page = request.args.get('page',default=1,type=int)
     limit = request.args.get('limit',default=25,type=int)
-    data = db.getOutages(page, limit)
+    data = rdb.getOutages(page, limit)
     return jsonify(data)
 
 
 @app.route('/getCron', methods=['GET'])
 def getCron():
-    data = db.getCronSettings()
+    data = rdb.getCronSettings()
     return jsonify(data)
 
 
@@ -62,5 +63,18 @@ def getCron():
 def getNotifications():
     page = request.args.get('page', default=1, type=int)
     limit = request.args.get('limit', default=25, type=int)
-    data = db.getNotifications(page, limit)
+    data = rdb.getNotifications(page, limit)
     return jsonify(data)
+
+
+# define green LED Override via POST
+@app.route('/overrideGreen', methods=['POST'])
+def overrideGreen():
+    status = request.form['status']
+    try:
+        db.changeLedStatus('green', status)
+        obj = {"status": "successfully changed LED status"}
+        return json.dumps(obj)
+    except:
+        obj = {"status": "Failed to change LED status"}
+        return json.dumps(obj)
