@@ -133,3 +133,27 @@ def addNotification(content, status):
 # End Notifications Queries                                                               #
 #                                                                                         #
 ###########################################################################################
+
+
+###########################################################################################
+#                                                                                         #
+# Begin archiving queries                                                                 #
+#                                                                                         #
+###########################################################################################
+
+# Archive records from downtime counts when records are more than 3 days old
+
+def archiveDowntimeCounts():
+    cursor.execute("""INSERT INTO archive_downtimeCounts (created_at, site, downCount) 
+                    (SELECT created_at,site,downCount FROM downtimeCounts where created_at < (CURDATE() - 3))""")
+    db.commit()
+
+    cursor.execute("""DELETE FROM downtimeCounts where created_at < (CURDATE() - 3))""")
+    db.commit()
+
+
+###########################################################################################
+#                                                                                         #
+# End archiving queries                                                                   #
+#                                                                                         #
+###########################################################################################

@@ -70,3 +70,14 @@ CREATE TABLE `notifications` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_unique` (`id`)
 )
+
+
+----- Archive tables -----
+
+ CREATE TABLE `archive_downtimeCounts` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `created_at` timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `site` varchar(150) DEFAULT NULL,
+  `downCount` int(11) DEFAULT '0',
+  PRIMARY KEY (`id`)
+)
