@@ -3,10 +3,11 @@ import requests
 import json
 import db
 import reporting_db as rdb
+import config.config as config
 
-green = 12
-yellow = 25
-red = 18
+green = config.LED_PINS['green']
+yellow = config.LED_PINS['yellow']
+red = config.LED_PINS['red']
 global upSites
 upSites = []
 global downSites
