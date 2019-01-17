@@ -13,6 +13,7 @@ def updateCheckFrequency(comment, freq, enabled):
     for job in user_cron:
         if job.comment == comment:
             job.minute.every(freq)
+            print(enabled)
             if enabled == 1:
                 job.enable()
                 print('enabled')
