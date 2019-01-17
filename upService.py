@@ -49,7 +49,7 @@ def getOutages():
 def getDowntimeCounts():
     page = request.args.get('page',default=1,type=int)
     limit = request.args.get('limit',default=25,type=int)
-    data = rdb.getOutages(page, limit)
+    data = rdb.getDowntimeCounts(page, limit)
     return jsonify(data)
 
 

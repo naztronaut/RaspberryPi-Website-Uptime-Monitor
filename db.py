@@ -104,9 +104,9 @@ def addCron(comment, cronName, cronVal, cronScript, enabled):
 
 
 # Find and update cron job in database
-def updateCron(comment, cronVal):
-        cursor.execute("""UPDATE cronSettings set cronVal = %s WHERE
-                        comment = %s""", (cronVal, comment))
+def updateCron(comment, cronVal, enabled):
+        cursor.execute("""UPDATE cronSettings set cronVal = %s, enabled = %s WHERE
+                        comment = %s""", (cronVal, comment, enabled))
         db.commit()
 
 
