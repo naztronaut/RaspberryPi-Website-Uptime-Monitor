@@ -101,12 +101,15 @@ def addCron(comment, cronName, cronVal, cronScript, enabled):
                         VALUES (%s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE cronName = %s, cronVal = %s, 
                         enabled = %s""", (comment, cronName, cronVal, cronScript, enabled, cronName, cronVal, enabled))
         db.commit()
+        cursor.execute("""SELECT * FROM cronSettings where comment = %s""", [comment])
+        data = cursor.fetchone()
+        return data
 
 
 # Find and update cron job in database
-def updateCron(comment, cronVal, enabled):
-        cursor.execute("""UPDATE cronSettings set cronVal = %s, enabled = %s WHERE
-                        comment = %s""", (cronVal, comment, enabled))
+def updateCron(comment, cronName, cronVal, enabled):
+        cursor.execute("""UPDATE cronSettings set cronName = %s, cronVal = %s, enabled = %s WHERE
+                        comment = %s""", (cronName, cronVal, enabled, comment))
         db.commit()
 
 

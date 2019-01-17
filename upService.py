@@ -78,3 +78,14 @@ def overrideGreen():
     except:
         obj = {"status": "Failed to change LED status"}
         return json.dumps(obj)
+
+
+@app.route('/updateCron', methods=['POST'])
+def updateCron():
+    comment = request.form['comment']
+    name = request.form['cronName']
+    val = request.form['cronVal']
+    enabled = request.form['enabled']
+
+    data = db.updateCron(comment, name, val, enabled)
+    return jsonify(data)
