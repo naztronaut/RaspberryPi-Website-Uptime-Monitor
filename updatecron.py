@@ -15,10 +15,8 @@ def updateCheckFrequency(comment, freq, enabled):
             job.minute.every(freq)
             if enabled == '1':
                 job.enable()
-                print('enabled')
             else:
                 job.enable(False)
-                print('disabled')
             user_cron.write()
             print(comment + " cron job updated successfully. It will now run every " + str(freq) + " minutes")
 
@@ -27,7 +25,7 @@ def updateCron(comment, val, enabled):
     for job in user_cron:
         if job.comment == comment:
             job.setall(val)
-            if enabled == 1:
+            if enabled == '1':
                 job.enable()
             else:
                 job.enable(False)
