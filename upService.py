@@ -4,6 +4,7 @@ import uptime
 import json
 import db
 import reporting_db as rdb
+import updatecron as uc
 
 
 app = Flask(__name__)
@@ -80,6 +81,20 @@ def overrideGreen():
         return json.dumps(obj)
 
 
+# This will only update the checkSites cron since it only accepts the interval at which sites are
+# checked unlike the others
+@app.route('/checkFrequency', methods=['POST'])
+def updateCron():
+    # comment = request.form['comment']
+    name = request.form['cronName']
+    val = request.form['cronVal']
+    enabled = request.form['enabled']
+
+    uc.updateCheckFrequency('checkSites', val, enabled)
+    data = db.updateCron('checkSites', name, val, enabled)
+    return jsonify(data)
+
+
 @app.route('/updateCron', methods=['POST'])
 def updateCron():
     comment = request.form['comment']
@@ -87,5 +102,6 @@ def updateCron():
     val = request.form['cronVal']
     enabled = request.form['enabled']
 
+    uc.updateCron(comment, val, enabled)
     data = db.updateCron(comment, name, val, enabled)
     return jsonify(data)
