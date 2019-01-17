@@ -84,7 +84,7 @@ def overrideGreen():
 # This will only update the checkSites cron since it only accepts the interval at which sites are
 # checked unlike the others
 @app.route('/checkFrequency', methods=['POST'])
-def updateCron():
+def checkFrequency():
     # comment = request.form['comment']
     name = request.form['cronName']
     val = request.form['cronVal']
