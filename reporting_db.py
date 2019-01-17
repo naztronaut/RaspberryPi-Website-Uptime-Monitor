@@ -78,6 +78,13 @@ def getCronSettings():
     return data
 
 
+# Get single cron to view and update
+def getOneCron(comment):
+    cursor.execute("""SELECT * FROM cronSettings where comment = %s""", [comment])
+    data = cursor.fetchone()
+    return data
+
+
 # Get all email notifications that were triggered along with if they were successful or fail
 # Columns: id, createdAt, content, status - content lists the sites in an array
 def getNotifications(page, limit):
