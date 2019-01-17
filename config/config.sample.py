@@ -1,6 +1,15 @@
 # config.sample.py
 # Rename this file to config.py before running this application and change the database values below
 
+
+# LED GPIO Pin numbers - these are the default values, feel free to change them as needed
+LED_PINS = {
+    'green':    12,
+    'yellow':   25,
+    'red':      18
+}
+
+
 EMAIL_CONFIG = {
     'username': '<USERNAME>',
     'password': '<PASSWORD>',
