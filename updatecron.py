@@ -31,3 +31,5 @@ def updateCron(comment, val, enabled):
                 job.enable(False)
             user_cron.write()
             print(comment + " cron job updated successfully. The new cron value is: " + str(val))
+
+
