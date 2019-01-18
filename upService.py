@@ -95,7 +95,7 @@ def checkFrequency():
     return jsonify(data)
 
 
-@app.route('/updateCron', methods=['POST, PUT'])
+@app.route('/updateCron', methods=['POST', 'PUT'])
 def updateCron():
     if request.method == 'PUT':
         comment = request.form['comment']
