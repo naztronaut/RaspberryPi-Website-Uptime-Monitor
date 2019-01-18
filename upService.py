@@ -69,7 +69,7 @@ def getNotifications():
 
 
 # define green LED Override via POST
-@app.route('/overrideGreen', methods=['POST'])
+@app.route('/overrideGreen', methods=['PUT'])
 def overrideGreen():
     status = request.form['status']
     try:
@@ -83,7 +83,7 @@ def overrideGreen():
 
 # This will only update the checkSites cron since it only accepts the interval at which sites are
 # checked unlike the others
-@app.route('/checkFrequency', methods=['POST'])
+@app.route('/checkFrequency', methods=['PUT'])
 def checkFrequency():
     # comment = request.form['comment']
     name = request.form['cronName']
@@ -95,13 +95,18 @@ def checkFrequency():
     return jsonify(data)
 
 
-@app.route('/updateCron', methods=['POST'])
+@app.route('/updateCron', methods=['POST, PUT'])
 def updateCron():
-    comment = request.form['comment']
-    name = request.form['cronName']
-    val = request.form['cronVal']
-    enabled = request.form['enabled']
+    if request.method == 'PUT':
+        comment = request.form['comment']
+        name = request.form['cronName']
+        val = request.form['cronVal']
+        enabled = request.form['enabled']
 
-    uc.updateCron(comment, val, enabled)
-    data = db.updateCron(comment, name, val, enabled)
-    return jsonify(data)
+        uc.updateCron(comment, val, enabled)
+        data = db.updateCron(comment, name, val, enabled)
+        return jsonify(data)
+    elif request.method == 'POST':
+        return 'POST Method not set'
+    else:
+        return 'Only accepts PUT or POST'
