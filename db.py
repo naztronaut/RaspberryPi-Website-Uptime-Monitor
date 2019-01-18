@@ -1,4 +1,5 @@
 import MySQLdb
+import MySQLdb.cursors
 import config.config as config
 
 # db = MySQLdb.connect("localhost","uptime","password123!","uptime")
