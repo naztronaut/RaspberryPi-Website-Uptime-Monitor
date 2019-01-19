@@ -31,6 +31,8 @@ yellow = 25
 red = 18
 ```
 
+The pins can be modified in the [LED Pins Configuration](#led-pins) section below
+
 ## Installation
 The following commands is a rough draft of what needs to be done to install all dependencies.
 
@@ -41,10 +43,10 @@ git clone https://github.com/naztronaut/RaspberryPi-Website-Uptime-Monitor.git
 
 To get the latest release, check out the Latest Releases: https://github.com/naztronaut/RaspberryPi-Website-Uptime-Monitor/releases/latest
 
-At the time of this update, the latest version is version `Alpha 0.2.3`. To get this directly, run the following commands:
+At the time of this update, the latest version is version `Beta 0.2.5-b01`. To get this directly, run the following commands:
 
 ```bash
-wget https://github.com/naztronaut/RaspberryPi-Website-Uptime-Monitor/archive/0.2.3-alpha.zip
+wget https://github.com/naztronaut/RaspberryPi-Website-Uptime-Monitor/archive/0.2.5-b01.zip
 ```
 
 Then unzip it with:
@@ -85,6 +87,18 @@ To rename the file, run this command:
 
 ```bash
 mv config.sample.py config.py
+```
+
+### LED Pins
+
+The GPIO pins for the LEDs that you will install can be modified in the conf file. Edit the `LED_PINS` object as you see fit. By default, the pins listed above are used:
+
+```python
+LED_PINS = {
+    'green':    12,
+    'yellow':   25,
+    'red':      18
+}
 ```
 
 ### Email Config
@@ -189,6 +203,11 @@ crontab -e
 You can also update the database manually. You can also edit the `initCron.py` file and add a new method or edit an old one with your Cron settings and re-run the `initCron.py` script. 
 I will add a way to programmatically update your settings in the future.  
 
+## Flask
+
+Web service end points have been created with Flask that can be connected to via a frontend web application or a simple Post request. The end points are still being built. The information below will help you get 
+the flask app started as well as understand some of the basic endpoints. Most end points return JSON, some may return basic text. More details below. 
+
 ### Run Flask APP
 
 **Note:** _The flask app is still under construction. So far, a few web service end points have been created. More will be added._  
@@ -210,12 +229,51 @@ substitute `ip_addr` for the IP address for your pi. Hostname will also work in 
 
 Details on the Flask app will be posted later. 
 
+### Web Service Endpoints
+
+Note: All `GET` requests below have two URL parameters that they accept. They are `page` with a default value of 1 and `limit` with a default value of 25. 
+
+#### 1. Update Status
+
+You can run the website checks manually with `/updateStatus` - it may take a few seconds to a minute to return something depends on how many sites are being checked.
+
+#### 2. GET Current Status
+
+You can get the current status of all websites checked with this end point: `/getCurrentStatus` 
+
+Sites previously checked but removed from the list will return as `down`. 
+
+#### 2. GET Current Status
+
+You can get the current status of all websites checked with this end point: `/getCurrentStatus` 
+
+Sites previously checked but removed from the list will return as `down`. 
+
+#### 3. GET Activity
+
+Every time the `uptime.py` script is run, it's recorded in the database. The `/getActivity` end point will grab you every entry. Note that this list can get very long.  
+
+#### 4. Other GET requests (will be documented later)
+
+1. `/getOutages`
+2. `/getDowntimeCounts`
+3. `/getCron/`
+4. `/getNotifications`
+
+#### POST and PUT requests
+
+1. `/overrideGreen` - override the database value that keeps the green light turned off. `PUT` request taking one parameter: `status` (0 or 1)
+2. `/checkFrequency` - Changes the frequency at which the regular site check runs. By default it's every 15 minutes. `PUT` request that takes three parameters: `cronName`, `cronVal`, and `enabled` (0 or 1)
+3. `/updateCron` - Changes the crontab values of placed cronjobs based on comment name. `PUT` request that takes 4 paramters: `comment` (unique identifier), `cronName`, `cronVal`, and `enabled` (0 or 1).
+
+More will be added. Want me to add something specific, let me know!
+
 ## Backlog items:
 
 1. Web service access (currently in progress as a Flask app)
 2. Database integration - for reporting purposes (COMPLETE)
 3. Cron Jobs (COMPLETE)
-4. Ability to add and update cron jobs programmatically (not started)
+4. Ability to add and update cron jobs programmatically (partially complete)
 5. Notification via email (Mostly Complete) 
 6. Front-End UI (not started - Planning on creating a separate Angular app that consumes the Flask Web Service endpoints) 
  
