@@ -212,7 +212,9 @@ the flask app started as well as understand some of the basic endpoints. Most en
 
 **Note:** _The flask app is still under construction. So far, a few web service end points have been created. More will be added._  
 
-Running a flask app is fairly simple. The controller for the Flask app is `upService.py`. Once you have flask installed in your virtual environment, you can start flask with the following commands:
+Running a flask app is fairly simple. To run apache in front of flask so that you can access your app without needing the port, read the [Apache](#apache) section below. 
+
+The controller for the Flask app is `upService.py`. Once you have flask installed in your virtual environment, you can start flask with the following commands:
 
 ```bash
 export FLASK_APP=upService.py
@@ -225,7 +227,8 @@ flask run --host=0.0.0.0
 ```
 
 You can now access it from any computer on your network (assuming there are no firewall settings blocking this) by going to http://ip_addr:5000 - 
-substitute `ip_addr` for the IP address for your pi. Hostname will also work in some instances depending on your network setup.
+substitute `ip_addr` for the IP address for your pi. Hostname will also work in some instances depending on your network setup. 
+The apache section below will cover how to run your flask app through apache.
 
 Details on the Flask app will be posted later. 
 
@@ -267,6 +270,91 @@ Every time the `uptime.py` script is run, it's recorded in the database. The `/g
 3. `/updateCron` - Changes the crontab values of placed cronjobs based on comment name. `PUT` request that takes 4 paramters: `comment` (unique identifier), `cronName`, `cronVal`, and `enabled` (0 or 1).
 
 More will be added. Want me to add something specific, let me know!
+
+## Apache
+
+### Installation
+
+We need to install Apache2 as well as Libapache WSGI module. To do so, run this command:
+
+```bash
+sudo apt install apache2 libapache2-mod-wsgi-py3 -y
+```
+
+This will install the required depencencies. 
+
+Move or copy the `activate_this.py` file from the `util/` dir into your venv folder.  You can do so with this command:
+
+```bash
+cp util/activate_this.py venv/bin/
+``` 
+
+The file will allow Apache to run your this application from from the virtual environment. The file was last copied on January 31, 2019. To look for updates or to get it directly from the source, you can run this command:
+
+```bash
+cd venv/bin
+wget https://raw.githubusercontent.com/pypa/virtualenv/master/virtualenv_embedded/activate_this.py
+```
+
+This will enter your `venv/bin` dir and download the file from the source (source file does not change often). 
+
+We need to add a new configuration file to Apache. To do this run these:
+
+```bash
+cd /etc/apache2/sites-available
+```
+
+Create a new .conf file:
+
+```bash
+sudo nano uptime.conf
+```
+
+Enter this new virtual host information in the file and save:
+```apacheconf
+<VirtualHost *:80>
+    ServerName uptimepi
+    WSGIDaemonProcess uptime user=pi group=www-data threads=5
+    WSGIScriptAlias /uptime /var/www/html/uptime/uptime.wsgi
+    <Directory /var/www/html/uptime>
+        WSGIProcessGroup uptime
+        WSGIApplicationGroup %{GLOBAL}
+        Require all granted
+    </Directory>
+</VirtualHost>
+```
+
+Then we need to activate this new configuration file and disable the default one with these commands:
+
+```bash
+sudo a2ensite uptime.conf
+sudo a2dissite 000-default.conf
+```
+
+You can then restart apache with `sudo service apache2 restart` now.
+
+As the file suggests, we need the `uptime.wsgi` file in the  `/var/www/html/uptime/` directory so that our apache can access it. So let's do these commands:
+
+```bash
+cd /var/www/html
+sudo mkdir uptime
+cd uptime
+```
+
+A wsgi file is already provided in the `util/` directory of this repository. You can either create your own or copy the provided file with this command:
+
+```bash
+sudo cp /home/pi/uptime/util/uptime.wsgi /var/www/html/uptime/
+```
+
+Adjust the directory from `/uptime/` as you need to if you created your own directory. Note that you will need to update line 3 and 8 of `uptime.wsgi` with the correct directory as well. 
+
+Once this is done, restart apache if you haven't already, open a new browser and go to `http://ip_addr/uptime` - if all goes well, the app should load and you no longer 
+need to start Flask every time or use the port 5000. You can use any of the routes available to you. 
+
+What are the benefits of running apache in front of your flask app?
+
+When we create our front-end site, we won't have to worry about CORS when requesting data. We can simply add our front-end to another folder in our web server and use this as one big app!
 
 ## Backlog items:
 
