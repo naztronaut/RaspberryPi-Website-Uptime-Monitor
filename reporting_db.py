@@ -25,7 +25,7 @@ def getCurrentStatus(page, limit):
 # Columns: id, activityType, createdAt, sitesAffected (returns one site and reports activity type as up or down)
 def getActivity(page, limit):
     pg = (page - 1) * limit
-    cursor.execute("""SELECT * FROM activity LIMIT %s,%s""", (pg, limit))
+    cursor.execute("""SELECT * FROM activity ORDER BY id DESC LIMIT %s,%s""", (pg, limit))
     data = cursor.fetchall()
     return data
 
@@ -34,7 +34,7 @@ def getActivity(page, limit):
 # Columns: id, createdAt, sitesAffected (returns array), numberOfSites
 def getOutages(page, limit):
     pg = (page - 1) * limit
-    cursor.execute("""SELECT * FROM outages LIMIT %s,%s""", (pg, limit))
+    cursor.execute("""SELECT * FROM outages ORDER BY id DESC LIMIT %s,%s""", (pg, limit))
     data = cursor.fetchall()
     return data
 
@@ -89,6 +89,6 @@ def getOneCron(comment):
 # Columns: id, createdAt, content, status - content lists the sites in an array
 def getNotifications(page, limit):
     pg = (page - 1) * limit
-    cursor.execute("""SELECT * from notifications LIMIT %s, %s""", (pg, limit))
+    cursor.execute("""SELECT * from notifications ORDER BY id DESC LIMIT %s, %s""", (pg, limit))
     data = cursor.fetchall()
     return data

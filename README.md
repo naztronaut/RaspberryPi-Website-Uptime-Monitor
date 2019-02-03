@@ -34,7 +34,8 @@ red = 18
 The pins can be modified in the [LED Pins Configuration](#led-pins) section below
 
 ## Installation
-The following commands is a rough draft of what needs to be done to install all dependencies.
+
+**NOTE**: _This guide assumes that you have MySQL installed with a database named `uptime` - you can change the database name and user in the configurations below._  
 
 If you haven't already, You can either clone this repository or download the latest release. To clone the repo run this command:
 ```bash
