@@ -319,6 +319,7 @@ Enter this new virtual host information in the file and save:
     WSGIScriptAlias /uptime /var/www/html/uptime/uptime.wsgi
     <Directory /var/www/html/uptime>
         WSGIProcessGroup uptime
+        WSGIScriptReloading On
         WSGIApplicationGroup %{GLOBAL}
         Require all granted
     </Directory>
