@@ -18,6 +18,7 @@ def getCurrentStatus(page, limit):
     pg = (page - 1) * limit
     cursor.execute("""SELECT * FROM currentStatus LIMIT %s,%s""", (pg, limit))
     data = cursor.fetchall()
+    db.commit()
     return data
 
 
@@ -27,6 +28,7 @@ def getActivity(page, limit):
     pg = (page - 1) * limit
     cursor.execute("""SELECT * FROM activity ORDER BY id DESC LIMIT %s,%s""", (pg, limit))
     data = cursor.fetchall()
+    db.commit()
     return data
 
 
@@ -36,6 +38,7 @@ def getOutages(page, limit):
     pg = (page - 1) * limit
     cursor.execute("""SELECT * FROM outages ORDER BY id DESC LIMIT %s,%s""", (pg, limit))
     data = cursor.fetchall()
+    db.commit()
     return data
 
 
@@ -46,6 +49,7 @@ def getDowntimeCounts(page, limit):
     pg = (page - 1) * limit
     cursor.execute("""SELECT * FROM downtimeCounts LIMIT %s,%s""", (pg, limit))
     data = cursor.fetchall()
+    db.commit()
     return data
 
 
@@ -53,6 +57,7 @@ def getDowntimeCounts(page, limit):
 def getDownTimeCountsGreaterThanThree():
     cursor.execute("""SELECT * FROM downtimeCounts where downCount >= 3""")
     data = cursor.fetchall()
+    db.commit()
     return data
 
 
@@ -67,6 +72,7 @@ def getDownTimeCountsGreaterThanThree():
 def getLedStatus(color):
     cursor.execute("""SELECT status FROM ledStatus where color = %s""", [color])
     data = cursor.fetchone()
+    db.commit()
     return data['status']
 
 
@@ -75,6 +81,7 @@ def getLedStatus(color):
 def getCronSettings():
     cursor.execute("""SELECT * FROM cronSettings""")
     data = cursor.fetchall()
+    db.commit()
     return data
 
 
@@ -82,6 +89,7 @@ def getCronSettings():
 def getOneCron(comment):
     cursor.execute("""SELECT * FROM cronSettings where comment = %s""", [comment])
     data = cursor.fetchone()
+    db.commit()
     return data
 
 
@@ -91,4 +99,5 @@ def getNotifications(page, limit):
     pg = (page - 1) * limit
     cursor.execute("""SELECT * from notifications ORDER BY id DESC LIMIT %s, %s""", (pg, limit))
     data = cursor.fetchall()
+    db.commit()
     return data
