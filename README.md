@@ -68,22 +68,22 @@ git clone https://github.com/naztronaut/RaspberryPi-Website-Uptime-Monitor.git
 
 To get the latest release, check out the Latest Releases: https://github.com/naztronaut/RaspberryPi-Website-Uptime-Monitor/releases/latest
 
-At the time of this update, the latest version is version `Beta 0.2.5-b02`. To get this directly, run the following commands:
+At the time of this update, the latest version is version `Beta 0.3.0-b01`. To get this directly, run the following commands:
 
 ```bash
-wget https://github.com/naztronaut/RaspberryPi-Website-Uptime-Monitor/archive/0.2.5-b02.zip
+wget https://github.com/naztronaut/RaspberryPi-Website-Uptime-Monitor/archive/0.3.0-b01.zip
 ```
 
 Then unzip it with:
 
 ```bash
-unzip 0.2.3-alpha.zip
+unzip 0.3.0-b01.zip
 ```
 
 For simplicity's sake, I recommend changing the name of the directory/repo to `uptime` as I've done it in and will be using for the rest of this guide. You can do so easily with this command:
 
 ```bash
-mv RaspberryPi-Website-Uptime-Monitor-0.2.5-b02 uptime
+mv RaspberryPi-Website-Uptime-Monitor-0.3.0-b01 uptime
 ```
 
 Update the directory name as needed. 
