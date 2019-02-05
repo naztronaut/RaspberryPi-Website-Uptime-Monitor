@@ -4,6 +4,28 @@
 
 The device monitors a list of your websites and lets you know if any of them are down. Still working on the logic but all green means all good. Red means 3+ sites are down, and yellow means 1-2 are down. More than one light can be on at once for now while I'm still figuring out the logic I want to implement.
 
+## Table of Contents
+
+1. [Getting Started](#getting-started)
+    1. [Hardware](#hardware)
+    2. [RPi Pin Usage](#rpi-pin-usage)
+2. [Installation](#installation)
+    1. [Website List](#website-list-upjson)
+3. [Configuration](#configuration)
+    1. [LED Pins](#led-pins)
+    2. [Email Config](#email-config)
+    3. [Database Config](#database-config)
+    4. [Virtual Environment](#virtual-environment--dependencies)
+4. [Cron Jobs](#initialize-cron-jobs)
+5. [Flask](#flask)
+    1. [Run Flask App](#run-flask-app)
+    2. [Web Service Endpoints](#web-service-endpoints)
+6. [Apache](#apache)
+7. [Backlog Items](#backlog-items)
+8. [Authors](#authors)
+9. [License](#license)
+    
+
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
@@ -11,6 +33,8 @@ These instructions will get you a copy of the project up and running on your loc
 Demo Pic of project in progress:
 
 <img src="https://i.imgur.com/yYHUCZ2.jpg" alt="Website Uptime Monitor" width="700" />
+
+
 
 ### Hardware
 
@@ -80,7 +104,7 @@ If you go to the above  URL, you will find that JSON file with that properly. Yo
 
 Avoid having a blank line in your `sites.txt` file. I may put all of this in database tables at some point in the future.  
 
-### Configuration
+## Configuration
 
 The below configurations are located in `config/config.sample.py` - before continuing, rename the file to `config.py` and adjust the values below. There are two main configuration categorie: Database and Email. 
 
@@ -121,7 +145,7 @@ EMAIL_CONFIG = {
 
 Once you've made the edits, move onto the database config. 
 
-## Database Config
+### Database Config
 
 Before creating the schema, edit `config/config.py` and update the `DATABASE_CONFIG` configurations with the database that you'll create in the next step:
 
