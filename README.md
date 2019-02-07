@@ -1,4 +1,4 @@
-# Nazberry Pi - Website Uptime Monitor
+# Raspberry Pi - Website Uptime Monitor
 
 **Note: This project is still a work in progress.**
 
