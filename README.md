@@ -1,6 +1,6 @@
 # Raspberry Pi - Website Uptime Monitor
 
-**Note: This project is still a work in progress.**
+<img src="https://www.easyprogramming.net/img/uptimeMonitor.jpg" width="700" />
 
 The device monitors a list of your websites and lets you know if any of them are down. Still working on the logic but all green means all good. Red means 3+ sites are down, and yellow means 1-2 are down. More than one light can be on at once for now while I'm still figuring out the logic I want to implement.
 
@@ -33,8 +33,6 @@ These instructions will get you a copy of the project up and running on your loc
 Demo Pic of project in progress:
 
 <img src="https://i.imgur.com/yYHUCZ2.jpg" alt="Website Uptime Monitor" width="700" />
-
-
 
 ### Hardware
 
