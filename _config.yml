@@ -2,3 +2,6 @@ theme: jekyll-theme-cayman
 show_downloads: true
 title: Raspberry Pi Website Uptime Monitor
 description: The device monitors a list of your websites and lets you know if any of them are down using the Raspberry Pi and some LEDs
+github:
+  zip_url: https://github.com/naztronaut/RaspberryPi-Website-Uptime-Monitor/archive/0.3.0-b01.zip
+  tar_url: https://github.com/naztronaut/RaspberryPi-Website-Uptime-Monitor/archive/0.3.0-b01.tar.gz
