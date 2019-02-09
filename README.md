@@ -2,7 +2,7 @@
 
 The device monitors a list of your websites and lets you know if any of them are down. Still working on the logic but all green means all good. Red means 3+ sites are down, and yellow means 1-2 are down. More than one light can be on at once for now while I'm still figuring out the logic I want to implement.
 
-# Demo
+## Demo
 <a href="https://www.youtube.com/watch?v=CBtRuy5vFhI" target="_blank"><img src="https://www.easyprogramming.net/img/uptimeMonitor.jpg" width="700" /></a>
 ###### Click image to watch demo on YouTube
 
