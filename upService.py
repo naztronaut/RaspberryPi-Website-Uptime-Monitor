@@ -59,12 +59,12 @@ def updateSite():
     id = request.form['id']
     siteName = request.form['siteName']
     url = request.form['url']
-    status = request.form['status']
+    # status = request.form['status'] #  should only be updated by site check
     active = request.form['active']
     email = request.form['email']
     visible = 1  # default visible
     try:
-        data = db.updateSite(id, siteName, url, status, active, email, visible)
+        data = db.updateSite(id, siteName, url, active, email, visible)
         # obj = {"status": "successfully added site"}
         # return json.dumps(obj)
         return jsonify(data)

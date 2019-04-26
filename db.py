@@ -41,10 +41,10 @@ def addSite(name, url, status, active, email, visible):
 
 
 # Update sites and return site after edit
-def updateSite(id, name, url, status, active, email, visible):
-    cursor.execute("""UPDATE sites SET siteName = %s, url = %s, status = %s, 
+def updateSite(id, name, url, active, email, visible):
+    cursor.execute("""UPDATE sites SET siteName = %s, url = %s,
                             active = %s, email = %s, visible = %s WHERE id = %s""",
-                   (name, url, status, active, email, id, visible))
+                   (name, url, active, email, id, visible))
     db.commit()
     cursor.execute("""SELECT * FROM sites where id = %s""", [id])
     data = cursor.fetchone()
