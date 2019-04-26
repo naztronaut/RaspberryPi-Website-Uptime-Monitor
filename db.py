@@ -51,6 +51,13 @@ def updateSite(id, name, url, status, active, email, visible):
     return data
 
 
+# Update status of site if it's down
+def updateSiteStatus(id, status):
+    cursor.execute("""UPDATE sites SET status = %s WHERE id = %s""",
+                   (status, id))
+    db.commit()
+
+
 ###########################################################################################
 #                                                                                         #
 # End Activity Queries                                                                    #

@@ -41,8 +41,36 @@ def getSites():
 def addSite():
     siteName = request.form['siteName']
     url = request.form['url']
-    status = request.form
+    status = 0  # default is site is offline until checked
+    active = 1  # default active
+    email = request.form['email']
+    visible = 1  # default visible
+    try:
+        data = db.addSite(siteName, url, status, active, email, visible)
+        # obj = {"status": "successfully added site"}
+        # return json.dumps(obj)
+        return jsonify(data)
+    except:
+        obj = {"status": "Failed to add site"}
+        return json.dumps(obj)
 
+@app.route('/updateSite', methods=['PUT'])
+def updateSite():
+    id = request.form['id']
+    siteName = request.form['siteName']
+    url = request.form['url']
+    status = request.form['status']
+    active = request.form['active']
+    email = request.form['email']
+    visible = 1  # default visible
+    try:
+        data = db.updateSite(id, siteName, url, status, active, email, visible)
+        # obj = {"status": "successfully added site"}
+        # return json.dumps(obj)
+        return jsonify(data)
+    except:
+        obj = {"status": "Failed to add site"}
+        return json.dumps(obj)
 
 
 @app.route('/getActivity', methods=['GET'])
