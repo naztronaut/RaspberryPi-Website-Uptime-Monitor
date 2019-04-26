@@ -16,7 +16,21 @@ CREATE TABLE `currentStatus` (
   `status` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `site` (`site`)
-); 
+);
+
+CREATE TABLE `sites` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `siteName` varchar(999) NOT NULL,
+  `updatedAt` timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `url` varchar(150) DEFAULT NULL,
+  `status` varchar(255) DEFAULT NULL,
+  `active` int(1) DEFAULT 1,
+  `email` varchar(999) DEFAULT NULL,
+  `visible` int(1) DEFAULT 1,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `url` (`url`)
+);
+
 
 CREATE TABLE `outages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,

@@ -27,6 +27,30 @@ def currentStatus(site, status):
     cursor.execute("""INSERT INTO currentStatus (site, status) VALUES (%s,%s)
                         ON DUPLICATE KEY UPDATE status = %s""", (site, status, status))
 
+
+# Add site into sites table -  newer than currentStatus
+def addSite(name, url, status, active, email, visible):
+    cursor.execute("""INSERT INTO sites (siteName, url, status, active, email, visible) 
+                            VALUES (%s, %s, %s, %s, %s, %s) ON DUPLICATE KEY UPDATE siteName = %s, url = %s, status = %s, 
+                            active = %s, email = %s, visible = %s""",
+                   (name, url, status, active, email, visible, name, url, status, active, email, visible))
+    db.commit()
+    cursor.execute("""SELECT * FROM sites where url = %s""", [url])
+    data = cursor.fetchone()
+    return data
+
+
+# Update sites and return site after edit
+def updateSite(id, name, url, status, active, email, visible):
+    cursor.execute("""UPDATE sites SET siteName = %s, url = %s, status = %s, 
+                            active = %s, email = %s, visible = %s WHERE id = %s""",
+                   (name, url, status, active, email, id, visible))
+    db.commit()
+    cursor.execute("""SELECT * FROM sites where id = %s""", [id])
+    data = cursor.fetchone()
+    return data
+
+
 ###########################################################################################
 #                                                                                         #
 # End Activity Queries                                                                    #

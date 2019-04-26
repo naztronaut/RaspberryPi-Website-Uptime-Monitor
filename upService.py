@@ -30,6 +30,14 @@ def getCurrentStatus():
     return jsonify(data)
 
 
+@app.route('/getSites', methods=['GET'])
+def getSites():
+    page = request.args.get('page',default=1,type=int)
+    limit = request.args.get('limit',default=100,type=int)
+    data = rdb.getSites(page, limit)
+    return jsonify(data)
+
+
 @app.route('/getActivity', methods=['GET'])
 def getActivity():
     page = request.args.get('page',default=1,type=int)

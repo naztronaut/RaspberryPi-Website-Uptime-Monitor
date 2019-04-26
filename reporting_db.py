@@ -22,6 +22,15 @@ def getCurrentStatus(page, limit):
     return data
 
 
+# Get Sites that are being monitored
+def getSites(page, limit):
+    pg = (page - 1) * limit
+    cursor.execute("""SELECT * FROM sites WHERE visible = 1 LIMIT %s,%s""", (pg, limit))
+    data = cursor.fetchall()
+    db.commit()
+    return data
+
+
 # Get all activity ever recorded. Recorded every 15 minutes by default.
 # Columns: id, activityType, createdAt, sitesAffected (returns one site and reports activity type as up or down)
 def getActivity(page, limit):
