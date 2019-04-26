@@ -21,22 +21,24 @@ def sites():
     totalSites = 0
     # Read list of sites in sites.txt - one site per line
     # make sure the up.json file exists with the property "site"
-    with open("sites.txt") as f:
-        for line in f:
-            totalSites = totalSites + 1
-            isItUp(line)
-
-    if len(upSites) + len(downSites) == totalSites:
-        js = '{"up": "' + str(len(upSites)) + '", "down" : "' + str(len(downSites)) + '", "upSites": "' + str(
-            upSites) + '", "downSites": "' + str(downSites) + '"}'
-    # insert into `outages` table with a list of sites in an array and the length of the downSites arr
-    if len(downSites) > 0:
-        db.insertSites(str(downSites), str(len(downSites)))
-    # trigger updateDownSites() method to store data in `outages` table
-    updateDownSites()
-    # trigger checkSite() method to trigger double checking of sites that are up
-    checkSite()
-    return json.dumps(js)
+    json_object = json.load(rdb.getSites(1, 100))
+    print json_object
+    # with open("sites.txt") as f:
+    #     for line in f:
+    #         totalSites = totalSites + 1
+    #         isItUp(line)
+    #
+    # if len(upSites) + len(downSites) == totalSites:
+    #     js = '{"up": "' + str(len(upSites)) + '", "down" : "' + str(len(downSites)) + '", "upSites": "' + str(
+    #         upSites) + '", "downSites": "' + str(downSites) + '"}'
+    # # insert into `outages` table with a list of sites in an array and the length of the downSites arr
+    # if len(downSites) > 0:
+    #     db.insertSites(str(downSites), str(len(downSites)))
+    # # trigger updateDownSites() method to store data in `outages` table
+    # updateDownSites()
+    # # trigger checkSite() method to trigger double checking of sites that are up
+    # checkSite()
+    # return json.dumps(js)
 
 
 # Does an HTTP GET on the site URLs being passed and looks for status code 200 and a JSON file with a property

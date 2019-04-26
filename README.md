@@ -288,6 +288,7 @@ Every time the `uptime.py` script is run, it's recorded in the database. The `/g
 2. `/checkFrequency` - Changes the frequency at which the regular site check runs. By default it's every 15 minutes. `PUT` request that takes three parameters: `cronName`, `cronVal`, and `enabled` (0 or 1)
 3. `/updateCron` - Changes the crontab values of placed cronjobs based on comment name. `PUT` request that takes 4 paramters: `comment` (unique identifier), `cronName`, `cronVal`, and `enabled` (0 or 1).
 4. `/getSites`  - Newest - will replace `/currentStatus` and be more configurable
+5. '/updateSite' - new - will update sites
 
 More will be added. Want me to add something specific, let me know!
 
