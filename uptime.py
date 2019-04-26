@@ -4,7 +4,6 @@ import json
 import db
 import reporting_db as rdb
 import config.config as config
-from flask import jsonify
 
 green = config.LED_PINS['green']
 yellow = config.LED_PINS['yellow']
@@ -22,7 +21,7 @@ def sites():
     totalSites = 0
     # Read list of sites in sites.txt - one site per line
     # make sure the up.json file exists with the property "site"
-    json_object = jsonify(rdb.getSites(1, 100))
+    json_object = (rdb.getSites(1, 100))
     print((json_object))
     return (json_object)
     # with open("sites.txt") as f:
