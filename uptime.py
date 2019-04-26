@@ -23,9 +23,21 @@ def sites():
     # make sure the up.json file exists with the property "site"
     json_object = (rdb.getSites(1, 100))
     for item in json_object:
-        print(item['siteName'])
-    print((json_object[0]))
-    return (json_object)
+        status = isItUp(item['url'])
+        try:
+            if status == True:
+                upSites.append(item['url'])
+                dataOutput(item['url'], 'up')
+            else:
+                downSites.append(item['url'])
+                dataOutput(item['url'], 'down')
+        except:
+            downSites.append(item['url'])
+            dataOutput(item['url'], 'down')
+
+    #     print(item['siteName'])
+    # print((json_object[0]))
+    # return (json_object)
     # with open("sites.txt") as f:
     #     for line in f:
     #         totalSites = totalSites + 1
@@ -34,58 +46,66 @@ def sites():
     # if len(upSites) + len(downSites) == totalSites:
     #     js = '{"up": "' + str(len(upSites)) + '", "down" : "' + str(len(downSites)) + '", "upSites": "' + str(
     #         upSites) + '", "downSites": "' + str(downSites) + '"}'
-    # # insert into `outages` table with a list of sites in an array and the length of the downSites arr
-    # if len(downSites) > 0:
-    #     db.insertSites(str(downSites), str(len(downSites)))
-    # # trigger updateDownSites() method to store data in `outages` table
-    # updateDownSites()
-    # # trigger checkSite() method to trigger double checking of sites that are up
-    # checkSite()
+    # insert into `outages` table with a list of sites in an array and the length of the downSites arr
+    if len(downSites) > 0:
+        db.insertSites(str(downSites), str(len(downSites)))
+    # trigger updateDownSites() method to store data in `outages` table
+    updateDownSites()
+    # trigger checkSite() method to trigger double checking of sites that are up
+    checkSite()
     # return json.dumps(js)
 
 
 # Does an HTTP GET on the site URLs being passed and looks for status code 200 and a JSON file with a property
 # of 'site' which has the URL of the current JSON file
 def isItUp(site):
-    upSites = []
-    downSites = []
-    site = site.replace('\n', '')
-
-    # only proceed if page loads successfully with status code of 200
     try:
         data = requests.get(site)
         if data.status_code == 200:
-            resp = data.text
-            parsed = json.loads(resp)
-            # if siteUrl property matches the site url passed, then it'll return a 1, otherwise the page gets a 200 but
-            # for some reason, the json file isn't being read
-            try:
-                if parsed['site'] == site:
-                    upSites.append(site)
-                    dataOutput(site, 'up')
-                else:
-                    downSites.append(site)
-                    dataOutput(site, 'down')
-            except:
-                downSites.append(site)
-                dataOutput(site, 'down')
+            return True
         else:
-            downSites.append(site)
-            dataOutput(site, 'down')
+            return False
     except:
-        downSites.append(site)
-        dataOutput(site, 'down')
+        return False
+    # upSites = []
+    # downSites = []
+    # site = site.replace('\n', '')
+
+    # only proceed if page loads successfully with status code of 200
+    # try:
+    #     data = requests.get(site)
+    #     if data.status_code == 200:
+    #         resp = data.text
+    #         parsed = json.loads(resp)
+    #         # if siteUrl property matches the site url passed, then it'll return a 1, otherwise the page gets a 200 but
+    #         # for some reason, the json file isn't being read
+    #         try:
+    #             if parsed['site'] == site:
+    #                 upSites.append(site)
+    #                 dataOutput(site, 'up')
+    #             else:
+    #                 downSites.append(site)
+    #                 dataOutput(site, 'down')
+    #         except:
+    #             downSites.append(site)
+    #             dataOutput(site, 'down')
+    #     else:
+    #         downSites.append(site)
+    #         dataOutput(site, 'down')
+    # except:
+    #     downSites.append(site)
+    #     dataOutput(site, 'down')
 
 
 # Outputting data to database tables as well as to lights
 def dataOutput(site, status):
     if status == 'up':
-        upSites.append(site.replace('\n', ''))
+        # upSites.append(site.replace('\n', ''))
         # send to `activity` table as site that is online
         db.addActivity("up", site)
         db.currentStatus(site, "up")
     else:
-        downSites.append(site.replace('\n', ''))
+        # downSites.append(site.replace('\n', ''))
         # send to activity table as site that is offline
         db.addActivity("down", site)
         db.currentStatus(site, "down")
