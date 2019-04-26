@@ -23,7 +23,7 @@ CREATE TABLE `sites` (
   `siteName` varchar(999) NOT NULL,
   `updatedAt` timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
   `url` varchar(150) DEFAULT NULL,
-  `status` varchar(255) DEFAULT NULL,
+  `status` varchar(255) DEFAULT 0,
   `active` int(1) DEFAULT 1,
   `email` varchar(999) DEFAULT NULL,
   `visible` int(1) DEFAULT 1,
