@@ -23,8 +23,8 @@ def sites():
     # Read list of sites in sites.txt - one site per line
     # make sure the up.json file exists with the property "site"
     json_object = jsonify(rdb.getSites(1, 100))
-    print(json.load(json_object))
-    return json.load(json_object)
+    print((json_object))
+    return (json_object)
     # with open("sites.txt") as f:
     #     for line in f:
     #         totalSites = totalSites + 1
