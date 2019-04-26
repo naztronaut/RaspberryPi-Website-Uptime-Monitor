@@ -22,6 +22,8 @@ def sites():
     # Read list of sites in sites.txt - one site per line
     # make sure the up.json file exists with the property "site"
     json_object = (rdb.getSites(1, 100))
+    for item in json_object:
+        print(item['siteName'])
     print((json_object[0]))
     return (json_object)
     # with open("sites.txt") as f:
