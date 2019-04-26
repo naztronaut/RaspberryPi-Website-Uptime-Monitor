@@ -27,13 +27,13 @@ def sites():
         try:
             if status == True:
                 upSites.append(item['url'])
-                dataOutput(item['url'], 'up')
+                dataOutput(item['id'], item['url'], item['name'], 'up')
             else:
                 downSites.append(item['url'])
-                dataOutput(item['url'], 'down')
+                dataOutput(item['id'], item['url'], item['name'], 'down')
         except:
             downSites.append(item['url'])
-            dataOutput(item['url'], 'down')
+            dataOutput(item['id'], item['url'], item['name'], 'down')
 
     #     print(item['siteName'])
     # print((json_object[0]))
@@ -98,17 +98,19 @@ def isItUp(site):
 
 
 # Outputting data to database tables as well as to lights
-def dataOutput(site, status):
+def dataOutput(id, siteUrl, siteName, status):
     if status == 'up':
         # upSites.append(site.replace('\n', ''))
         # send to `activity` table as site that is online
-        db.addActivity("up", site)
-        db.currentStatus(site, "up")
+        db.addActivity("up", siteName)
+        db.currentStatus(siteUrl, "up")
+        db.updateSiteStatus(id, "up")
     else:
         # downSites.append(site.replace('\n', ''))
         # send to activity table as site that is offline
-        db.addActivity("down", site)
-        db.currentStatus(site, "down")
+        db.addActivity("down", siteName)
+        db.currentStatus(siteUrl, "down")
+        db.updateSiteStatus(id, "down")
     if len(downSites) >= 3:
         changeLight(red, 'high')
         changeLight(yellow, 'low')
