@@ -172,4 +172,4 @@ def checkSite():
         db.checkSite(site)
 
 
-sites()
+# sites()
