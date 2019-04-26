@@ -37,6 +37,13 @@ def getSites():
     data = rdb.getSites(page, limit)
     return jsonify(data)
 
+@app.route('/addSite', methods=['POST'])
+def addSite():
+    siteName = request.form['siteName']
+    url = request.form['url']
+    status = request.form
+
+
 
 @app.route('/getActivity', methods=['GET'])
 def getActivity():
