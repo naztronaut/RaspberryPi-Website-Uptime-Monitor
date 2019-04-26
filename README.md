@@ -271,12 +271,6 @@ You can get the current status of all websites checked with this end point: `/ge
 
 Sites previously checked but removed from the list will return as `down`. 
 
-#### 2. GET Current Status
-
-You can get the current status of all websites checked with this end point: `/getCurrentStatus` 
-
-Sites previously checked but removed from the list will return as `down`. 
-
 #### 3. GET Activity
 
 Every time the `uptime.py` script is run, it's recorded in the database. The `/getActivity` end point will grab you every entry. Note that this list can get very long.  
@@ -293,6 +287,7 @@ Every time the `uptime.py` script is run, it's recorded in the database. The `/g
 1. `/overrideGreen` - override the database value that keeps the green light turned off. `PUT` request taking one parameter: `status` (0 or 1)
 2. `/checkFrequency` - Changes the frequency at which the regular site check runs. By default it's every 15 minutes. `PUT` request that takes three parameters: `cronName`, `cronVal`, and `enabled` (0 or 1)
 3. `/updateCron` - Changes the crontab values of placed cronjobs based on comment name. `PUT` request that takes 4 paramters: `comment` (unique identifier), `cronName`, `cronVal`, and `enabled` (0 or 1).
+4. `/getSites`  - Newest - will replace `/currentStatus` and be more configurable
 
 More will be added. Want me to add something specific, let me know!
 
