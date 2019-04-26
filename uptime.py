@@ -27,13 +27,13 @@ def sites():
         try:
             if status == True:
                 upSites.append(item['url'])
-                dataOutput(item['id'], item['url'], item['name'], 'up')
+                dataOutput(item['id'], item['url'], item['siteName'], 'up')
             else:
                 downSites.append(item['url'])
-                dataOutput(item['id'], item['url'], item['name'], 'down')
+                dataOutput(item['id'], item['url'], item['siteName'], 'down')
         except:
             downSites.append(item['url'])
-            dataOutput(item['id'], item['url'], item['name'], 'down')
+            dataOutput(item['id'], item['url'], item['siteName'], 'down')
 
     #     print(item['siteName'])
     # print((json_object[0]))
