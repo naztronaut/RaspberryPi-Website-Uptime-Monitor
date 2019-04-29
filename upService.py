@@ -63,16 +63,11 @@ def updateSite():
     active = request.form['active']
     email = request.form['email']
     visible = 1  # default visible
-    print(id, siteName, url, active, email, visible)
     try:
         data = db.updateSite(id, siteName, url, active, email, visible)
-        print('here')
-        # obj = {"status": "successfully added site"}
-        # return json.dumps(obj)
-        print("Site updated")
         return jsonify(data)
     except:
-        obj = {"status": "Failed to add site"}
+        obj = {"status": "Failed to update site"}
         return json.dumps(obj)
 
 
