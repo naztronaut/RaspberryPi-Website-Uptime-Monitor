@@ -77,12 +77,6 @@ def getDownTimeCountsGreaterThanThree():
     return data
 
 
-# Unused - commenting out for removal later
-# def timeConverter(t):
-#     if isinstance(t, datetime.datetime):
-#         return t.__str__()
-
-
 # Get LED status for each LED. Can be used later to indicate uptime status on screen instead of lights
 # Columns: id, color, pin, updateDate, status
 def getLedStatus(color):
