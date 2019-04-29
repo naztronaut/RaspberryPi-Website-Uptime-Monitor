@@ -25,7 +25,7 @@ def getCurrentStatus(page, limit):
 # Get Sites that are being monitored
 def getSites(page, limit):
     pg = (page - 1) * limit
-    cursor.execute("""SELECT * FROM sites WHERE visible = 1 LIMIT %s,%s""", (pg, limit))
+    cursor.execute("""SELECT * FROM sites WHERE visible = 1 and active = 1 LIMIT %s,%s""", (pg, limit))
     data = cursor.fetchall()
     db.commit()
     return data
