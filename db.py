@@ -47,8 +47,10 @@ def updateSite(id, name, url, active, email, visible):
                             active = %s, email = %s, visible = %s WHERE id = %s""",
                    (name, url, active, email, id, visible))
     db.commit()
+    print('in db2')
     cursor.execute("""SELECT * FROM sites where id = %s""", [id])
     data = cursor.fetchone()
+    print('in db2')
     return data
 
 
