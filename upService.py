@@ -56,7 +56,6 @@ def addSite():
 
 @app.route('/updateSite', methods=['PUT'])
 def updateSite():
-    print("here")
     id = request.form['id']
     siteName = request.form['siteName']
     url = request.form['url']
@@ -64,8 +63,10 @@ def updateSite():
     active = request.form['active']
     email = request.form['email']
     visible = 1  # default visible
+    print(id, siteName, url, active, email, visible)
     try:
         data = db.updateSite(id, siteName, url, active, email, visible)
+        print('here')
         # obj = {"status": "successfully added site"}
         # return json.dumps(obj)
         print("Site updated")
