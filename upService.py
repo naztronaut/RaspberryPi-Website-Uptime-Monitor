@@ -67,6 +67,7 @@ def updateSite():
         data = db.updateSite(id, siteName, url, active, email, visible)
         # obj = {"status": "successfully added site"}
         # return json.dumps(obj)
+        print("Site updated")
         return jsonify(data)
     except:
         obj = {"status": "Failed to add site"}
