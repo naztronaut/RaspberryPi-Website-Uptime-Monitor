@@ -88,21 +88,13 @@ mv RaspberryPi-Website-Uptime-Monitor-0.3.0-b01 uptime
 
 Update the directory name as needed. 
 
-### Website List (up.json)
+### Website List in `sites` table
 
-After you clone the repo, you'll see a file called `sites.example.txt` in the folder. This is an example list of sites that I'm monitoring. Rename this to `sites.txt` and add one site per line. 
+Dependency on `up.json` was removed as of version `0.5.0`. Sites are now stored in the database inside the `sites` table.  
 
-At this moment, the monitor checks to see if the link location has a `.json` file with the property `site` - this property must be the same URL at which this file is located. Please see the `up.json` file as an example. The content of the file is as follows:
-
-```json
-{
-  "site": "https://www.easyprogramming.net/up.json"
-}
-```
-
-If you go to the above  URL, you will find that JSON file with that properly. You don't have to call it `up.json` but for the time being, the location of the file and the property within it must be the same. This is how the script validates that the website is actually loading content and not just returning a status 200.
-
-Avoid having a blank line in your `sites.txt` file. I may put all of this in database tables at some point in the future.  
+This application will check to see if a `200` is returned from the website and it will only check websites that are currently active and visible (not deleted). 
+The previously used `up.json` didn't do too much in addition to checking for a status of `200` so it was removed. I am working on ideas on how to check the actual content
+for a better sense of website uptime. 
 
 ## Configuration
 
@@ -261,21 +253,40 @@ Details on the Flask app will be posted later.
 
 Note: All `GET` requests below have two URL parameters that they accept. They are `page` with a default value of 1 and `limit` with a default value of 25. 
 
-#### 1. Update Status
+#### 1. Sites
+
+You can get a list of all sites being monitored with the `/getSites` endpoint. You can add a site with `/addSite` and pass in these items:
+
+- `siteName` - name of the site 
+- `url` - url to be monitored
+- `email` - email address which will be contacted if the site goes down
+
+New sites are automatically set to the active status, but can be turned off by changing the `active` property to `0`. 
+
+You can update a site by using the `/updateSite` endpoint. Along with the three properties above, send these additional two to update the site:
+
+- `id` - in order to edit a site, it must exist with an unique id in the database
+- `active` - change the active status to either 1 (active) or 0 (inactive)
+
+Delete functionality will be coming in a future release. It will be a soft delete (visibility will be set to 0 instead of removing the row from the database). 
+
+#### 2. Update Status
 
 You can run the website checks manually with `/updateStatus` - it may take a few seconds to a minute to return something depends on how many sites are being checked.
 
-#### 2. GET Current Status
+#### 3. GET Current Status (Sites component replaces this)
+
+Note: This will eventually be deprecated since the Sites component handles everything here and more. 
 
 You can get the current status of all websites checked with this end point: `/getCurrentStatus` 
 
 Sites previously checked but removed from the list will return as `down`. 
 
-#### 3. GET Activity
+#### 4. GET Activity
 
 Every time the `uptime.py` script is run, it's recorded in the database. The `/getActivity` end point will grab you every entry. Note that this list can get very long.  
 
-#### 4. Other GET requests (will be documented later)
+#### 5. Other GET requests (will be documented later)
 
 1. `/getOutages`
 2. `/getDowntimeCounts`
@@ -287,8 +298,7 @@ Every time the `uptime.py` script is run, it's recorded in the database. The `/g
 1. `/overrideGreen` - override the database value that keeps the green light turned off. `PUT` request taking one parameter: `status` (0 or 1)
 2. `/checkFrequency` - Changes the frequency at which the regular site check runs. By default it's every 15 minutes. `PUT` request that takes three parameters: `cronName`, `cronVal`, and `enabled` (0 or 1)
 3. `/updateCron` - Changes the crontab values of placed cronjobs based on comment name. `PUT` request that takes 4 paramters: `comment` (unique identifier), `cronName`, `cronVal`, and `enabled` (0 or 1).
-4. `/getSites`  - Newest - will replace `/currentStatus` and be more configurable
-5. '/updateSite' - new - will update sites
+4. '/updateSite' - new - will update sites
 
 More will be added. Want me to add something specific, let me know!
 
@@ -380,12 +390,14 @@ When we create our front-end site, we won't have to worry about CORS when reques
 
 ## Backlog items:
 
+For a better list of backlog items, check out the beta project on Github: https://github.com/naztronaut/RaspberryPi-Website-Uptime-Monitor/projects/1
+
 1. Web service access (currently in progress as a Flask app)
 2. Database integration - for reporting purposes (COMPLETE)
 3. Cron Jobs (COMPLETE)
 4. Ability to add and update cron jobs programmatically (partially complete)
 5. Notification via email (Mostly Complete) 
-6. Front-End UI (not started - Planning on creating a separate Angular app that consumes the Flask Web Service endpoints) 
+6. Front-End UI (in progress - Planning on creating a separate Angular app that consumes the Flask Web Service endpoints) 
  
 Want to add an item to the backlog? Submit an issue. 
 

@@ -19,8 +19,7 @@ def sites():
     global js
     global totalSites
     totalSites = 0
-    # Read list of sites in sites.txt - one site per line
-    # make sure the up.json file exists with the property "site"
+    # gets sites from database now - dependency on up.json was removed
     json_object = (rdb.getSitesForCheck())
     for item in json_object:
         status = isItUp(item['url'])
@@ -34,18 +33,6 @@ def sites():
         except:
             downSites.append(item['url'])
             dataOutput(item['id'], item['url'], item['siteName'], 'down')
-
-    #     print(item['siteName'])
-    # print((json_object[0]))
-    # return (json_object)
-    # with open("sites.txt") as f:
-    #     for line in f:
-    #         totalSites = totalSites + 1
-    #         isItUp(line)
-    #
-    # if len(upSites) + len(downSites) == totalSites:
-    #     js = '{"up": "' + str(len(upSites)) + '", "down" : "' + str(len(downSites)) + '", "upSites": "' + str(
-    #         upSites) + '", "downSites": "' + str(downSites) + '"}'
     # insert into `outages` table with a list of sites in an array and the length of the downSites arr
     if len(downSites) > 0:
         db.insertSites(str(downSites), str(len(downSites)))
@@ -53,11 +40,10 @@ def sites():
     updateDownSites()
     # trigger checkSite() method to trigger double checking of sites that are up
     checkSite()
-    # return json.dumps(js)
 
 
-# Does an HTTP GET on the site URLs being passed and looks for status code 200 and a JSON file with a property
-# of 'site' which has the URL of the current JSON file
+# Does an HTTP GET on the site URLs being passed and looks for status code 200
+# removed dependency on up.json
 def isItUp(site):
     try:
         data = requests.get(site)
@@ -67,34 +53,6 @@ def isItUp(site):
             return False
     except:
         return False
-    # upSites = []
-    # downSites = []
-    # site = site.replace('\n', '')
-
-    # only proceed if page loads successfully with status code of 200
-    # try:
-    #     data = requests.get(site)
-    #     if data.status_code == 200:
-    #         resp = data.text
-    #         parsed = json.loads(resp)
-    #         # if siteUrl property matches the site url passed, then it'll return a 1, otherwise the page gets a 200 but
-    #         # for some reason, the json file isn't being read
-    #         try:
-    #             if parsed['site'] == site:
-    #                 upSites.append(site)
-    #                 dataOutput(site, 'up')
-    #             else:
-    #                 downSites.append(site)
-    #                 dataOutput(site, 'down')
-    #         except:
-    #             downSites.append(site)
-    #             dataOutput(site, 'down')
-    #     else:
-    #         downSites.append(site)
-    #         dataOutput(site, 'down')
-    # except:
-    #     downSites.append(site)
-    #     dataOutput(site, 'down')
 
 
 # Outputting data to database tables as well as to lights
