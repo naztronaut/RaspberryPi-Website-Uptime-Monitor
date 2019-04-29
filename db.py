@@ -42,7 +42,7 @@ def addSite(name, url, status, active, email, visible):
 
 # Update sites and return site after edit
 def updateSite(id, name, url, active, email, visible):
-    print('in db')
+    print(id, name, url, active, email, visible)
     cursor.execute("""UPDATE sites SET siteName = %s, url = %s,
                             active = %s, email = %s, visible = %s WHERE id = %s""",
                    (name, url, active, email, id, visible))
