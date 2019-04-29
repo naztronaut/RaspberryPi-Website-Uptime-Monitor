@@ -56,6 +56,7 @@ def addSite():
 
 @app.route('/updateSite', methods=['PUT'])
 def updateSite():
+    print("here")
     id = request.form['id']
     siteName = request.form['siteName']
     url = request.form['url']
