@@ -45,7 +45,7 @@ def updateSite(id, name, url, active, email, visible):
     print(id, name, url, active, email, visible)
     cursor.execute("""UPDATE sites SET siteName = %s, url = %s,
                             active = %s, email = %s, visible = %s WHERE id = %s""",
-                   (name, url, active, email, id, visible))
+                   (name, url, active, email, visible, id))
     db.commit()
     print('in db2')
     cursor.execute("""SELECT * FROM sites where id = %s""", [id])
