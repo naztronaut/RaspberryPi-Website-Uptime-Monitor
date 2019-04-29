@@ -22,10 +22,17 @@ def getCurrentStatus(page, limit):
     return data
 
 
-# Get Sites that are being monitored
+# Get Sites that are being monitored for UI
 def getSites(page, limit):
     pg = (page - 1) * limit
     cursor.execute("""SELECT * FROM sites WHERE visible = 1 LIMIT %s,%s""", (pg, limit))
+    data = cursor.fetchall()
+    db.commit()
+    return data
+
+# Get Sites that are being monitored for site checking - gets all sites if they are active and visibe
+def getSitesForCheck():
+    cursor.execute("""SELECT * FROM sites WHERE visible = 1 and active = 1""")
     data = cursor.fetchall()
     db.commit()
     return data

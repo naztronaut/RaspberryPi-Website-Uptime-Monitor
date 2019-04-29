@@ -21,7 +21,7 @@ def sites():
     totalSites = 0
     # Read list of sites in sites.txt - one site per line
     # make sure the up.json file exists with the property "site"
-    json_object = (rdb.getSites(1, 100))
+    json_object = (rdb.getSitesForCheck())
     for item in json_object:
         status = isItUp(item['url'])
         try:
