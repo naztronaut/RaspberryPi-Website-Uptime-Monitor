@@ -132,8 +132,9 @@ def getLedStatus():
 def changeLedActive():
     color = request.form['color']
     active = request.form['active']
+    print(color, active)
     data = db.overrideLedActive(color, active)
-    return data
+    return jsonify(data)
 
 
 # This will only update the checkSites cron since it only accepts the interval at which sites are
