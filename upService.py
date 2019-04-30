@@ -129,7 +129,7 @@ def getLedStatus():
 
 
 @app.route('/changeLedActive', methods=['PUT'])
-def changeLedActive(color, active):
+def changeLedActive():
     color = request.form['color']
     active = request.form['active']
     data = db.overrideLedActive(color, active)
