@@ -65,6 +65,7 @@ CREATE TABLE `cronSettings` (
 CREATE TABLE `ledStatus` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `color` varchar(150) DEFAULT NULL,
+  `pin` int(3) DEFAULT NULL,
   `updateDate` timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
   `status` tinyint(2) DEFAULT NULL,
   `active` tinyint(2) DEFAULT '1',
