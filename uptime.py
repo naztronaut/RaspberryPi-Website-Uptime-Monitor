@@ -93,21 +93,23 @@ def dataOutput(id, siteUrl, siteName, status):
 def changeLight(color, status):
     # will only turn on green led if it hasn't been turned off by the cron jobs at night
     # red and yellow lights are not affected by those values
-    if (color == green and rdb.getLedStatus('green') == 1) or color == red or color == yellow:
+    if (color == green and rdb.getLedActive('green') == 1) or color == red or color == yellow:
         if status == "high":
             output = GPIO.HIGH
+            db.changeLedStatus(color, 1)
             # Only affect red and yellow lights
-            if color == red:
-                db.changeLedStatus('red', 1)
-            elif color == yellow:
-                db.changeLedStatus('yellow', 1)
+            # if color == red:
+            #     db.changeLedStatus('red', 1)
+            # elif color == yellow:
+            #     db.changeLedStatus('yellow', 1)
         else:
             output = GPIO.LOW
+            db.changeLedStatus(color, 0)
             # Only affect red and yellow lights
-            if color == red:
-                db.changeLedStatus('red', 0)
-            elif color == yellow:
-                db.changeLedStatus('yellow', 0)
+            # if color == red:
+            #     db.changeLedStatus('red', 0)
+            # elif color == yellow:
+            #     db.changeLedStatus('yellow', 0)
 
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)

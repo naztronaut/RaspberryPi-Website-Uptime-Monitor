@@ -115,6 +115,12 @@ def changeLedStatus(color, status):
     cursor.execute("""UPDATE ledStatus set status = %s where color = %s""", (status, color))
     db.commit()
 
+
+# Override led
+def overrideLedActive(color, active):
+    cursor.execute("""UPDATE ledStatus set active = %s where color = %s""", (active, color))
+    db.commit()
+
 ###########################################################################################
 #                                                                                         #
 # End LED Queries                                                                         #

@@ -79,8 +79,8 @@ def getDownTimeCountsGreaterThanThree():
 
 # Get LED status for each LED. Can be used later to indicate uptime status on screen instead of lights
 # Columns: id, color, pin, updateDate, status
-def getLedStatus(color):
-    cursor.execute("""SELECT status FROM ledStatus where color = %s""", [color])
+def getLedActive(color):
+    cursor.execute("""SELECT active FROM ledStatus where color = %s""", [color])
     data = cursor.fetchone()
     db.commit()
     return data['status']
