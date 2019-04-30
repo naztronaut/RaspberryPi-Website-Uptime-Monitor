@@ -34,6 +34,8 @@ def sites():
             downSites.append(item['url'])
             dataOutput(item['id'], item['url'], item['siteName'], 'down')
     # insert into `outages` table with a list of sites in an array and the length of the downSites arr
+    print(downSites)
+    print(upSites)
     if len(downSites) > 0:
         db.insertSites(str(downSites), str(len(downSites)))
     # trigger updateDownSites() method to store data in `outages` table
