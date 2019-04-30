@@ -67,6 +67,7 @@ CREATE TABLE `ledStatus` (
   `color` varchar(150) DEFAULT NULL,
   `updateDate` timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
   `status` tinyint(2) DEFAULT NULL,
+  `active` tinyint(2) DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
 );
