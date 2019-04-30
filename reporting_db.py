@@ -83,7 +83,7 @@ def getLedActive(color):
     cursor.execute("""SELECT active FROM ledStatus where color = %s""", [color])
     data = cursor.fetchone()
     db.commit()
-    return data['status']
+    return data['active']
 
 
 # Get LED status for UI
