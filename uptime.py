@@ -34,8 +34,6 @@ def sites():
             downSites.append(item['url'])
             dataOutput(item['id'], item['url'], item['siteName'], 'down')
     # insert into `outages` table with a list of sites in an array and the length of the downSites arr
-    print(downSites)
-    print(upSites)
     if len(downSites) > 0:
         db.insertSites(str(downSites), str(len(downSites)))
     # trigger updateDownSites() method to store data in `outages` table
@@ -121,7 +119,6 @@ def changeLight(color, status):
 
 # Inserts data into downtimeCounts() table to either add or update the number of times a site has failed to respond
 def updateDownSites():
-    downSites.append('test site')
     for site in downSites:
         # insert into `downsitesCount` table and increment downCount by 1 if applicable
         db.insertDownSite(site)
@@ -135,4 +132,4 @@ def checkSite():
         db.checkSite(site)
 
 
-sites()
+# sites()
