@@ -122,10 +122,18 @@ def overrideGreen():
         return json.dumps(obj)
 
 
-@app.route('/getLedStatus', methods=['GET'])
+@app.route('/getLeds', methods=['GET'])
 def getLedStatus():
     data = rdb.getLedStatus()
     return jsonify(data)
+
+
+@app.route('/changeLedActive', methods=['PUT'])
+def changeLedActive(color, active):
+    color = request.form['color']
+    active = request.form['active']
+    data = db.overrideLedActive(color, active)
+    return data
 
 
 # This will only update the checkSites cron since it only accepts the interval at which sites are
