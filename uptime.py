@@ -110,7 +110,7 @@ def changeLight(color, status):
             #     db.changeLedStatus('red', 0)
             # elif color == yellow:
             #     db.changeLedStatus('yellow', 0)
-
+            print(color, 0)
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
         GPIO.setup(color, GPIO.OUT)
@@ -132,4 +132,4 @@ def checkSite():
         db.checkSite(site)
 
 
-# sites()
+sites()
