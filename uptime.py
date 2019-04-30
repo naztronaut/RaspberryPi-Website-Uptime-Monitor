@@ -121,6 +121,7 @@ def changeLight(color, status):
 
 # Inserts data into downtimeCounts() table to either add or update the number of times a site has failed to respond
 def updateDownSites():
+    downSites.append('test site')
     for site in downSites:
         # insert into `downsitesCount` table and increment downCount by 1 if applicable
         db.insertDownSite(site)
