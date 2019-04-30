@@ -112,6 +112,7 @@ def checkSite(site):
 ###########################################################################################
 # LED Table
 def changeLedStatus(color, status):
+    print(color, status)
     cursor.execute("""UPDATE ledStatus set status = %s where color = %s""", (status, color))
     db.commit()
 
