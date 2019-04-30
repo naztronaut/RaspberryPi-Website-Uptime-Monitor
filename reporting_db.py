@@ -86,6 +86,14 @@ def getLedActive(color):
     return data['status']
 
 
+# Get LED status for UI
+def getLedStatus():
+    cursor.execute("""SELECT * FROM ledStatus""")
+    data = cursor.fetchall()
+    db.commit()
+    return data
+
+
 # Gets cron jobs as defined in the database and whether or not they are enabled
 # Columns: id, comment, updateDate, cronName, cronVal, cronScript, enabled
 def getCronSettings():

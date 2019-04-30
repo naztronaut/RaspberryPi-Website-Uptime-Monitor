@@ -122,6 +122,12 @@ def overrideGreen():
         return json.dumps(obj)
 
 
+@app.route('/getLedStatus', methods=['GET'])
+def getLedStatus():
+    data = rdb.getLedStatus()
+    return jsonify(data)
+
+
 # This will only update the checkSites cron since it only accepts the interval at which sites are
 # checked unlike the others
 @app.route('/checkFrequency', methods=['PUT'])
