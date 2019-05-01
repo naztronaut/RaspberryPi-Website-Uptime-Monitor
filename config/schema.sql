@@ -85,10 +85,10 @@ CREATE TABLE `notifications` (
   `status` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_unique` (`id`)
-)
+);
 
 
------ Archive tables -----
+-- Archive tables --
 
  CREATE TABLE `archive_downtimeCounts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
