@@ -19,6 +19,7 @@ def getCurrentStatus(page, limit):
     cursor.execute("""SELECT * FROM currentStatus LIMIT %s,%s""", (pg, limit))
     data = cursor.fetchall()
     db.commit()
+    cursor.close()
     return data
 
 
@@ -28,6 +29,7 @@ def getSites(page, limit):
     cursor.execute("""SELECT * FROM sites WHERE visible = 1 LIMIT %s,%s""", (pg, limit))
     data = cursor.fetchall()
     db.commit()
+    cursor.close()
     return data
 
 # Get Sites that are being monitored for site checking - gets all sites if they are active and visibe
@@ -83,6 +85,7 @@ def getLedActive(color):
     cursor.execute("""SELECT active FROM ledStatus where color = %s""", [color])
     data = cursor.fetchone()
     db.commit()
+    cursor.close()
     return data['active']
 
 
@@ -91,6 +94,7 @@ def getLedStatus():
     cursor.execute("""SELECT * FROM ledStatus""")
     data = cursor.fetchall()
     db.commit()
+    cursor.close()
     return data
 
 
