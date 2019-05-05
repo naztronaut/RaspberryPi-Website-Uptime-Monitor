@@ -19,16 +19,20 @@ def sites():
     global js
     global totalSites
     totalSites = 0
-    # Read list of sites in sites.txt - one site per line
-    # make sure the up.json file exists with the property "site"
-    with open("sites.txt") as f:
-        for line in f:
-            totalSites = totalSites + 1
-            isItUp(line)
-
-    if len(upSites) + len(downSites) == totalSites:
-        js = '{"up": "' + str(len(upSites)) + '", "down" : "' + str(len(downSites)) + '", "upSites": "' + str(
-            upSites) + '", "downSites": "' + str(downSites) + '"}'
+    # gets sites from database now - dependency on up.json was removed
+    json_object = (rdb.getSitesForCheck())
+    for item in json_object:
+        status = isItUp(item['url'])
+        try:
+            if status == True:
+                upSites.append(item['url'])
+                dataOutput(item['id'], item['url'], item['siteName'], 'up')
+            else:
+                downSites.append(item['url'])
+                dataOutput(item['id'], item['url'], item['siteName'], 'down')
+        except:
+            downSites.append(item['url'])
+            dataOutput(item['id'], item['url'], item['siteName'], 'down')
     # insert into `outages` table with a list of sites in an array and the length of the downSites arr
     if len(downSites) > 0:
         db.insertSites(str(downSites), str(len(downSites)))
@@ -36,54 +40,35 @@ def sites():
     updateDownSites()
     # trigger checkSite() method to trigger double checking of sites that are up
     checkSite()
-    return json.dumps(js)
 
 
-# Does an HTTP GET on the site URLs being passed and looks for status code 200 and a JSON file with a property
-# of 'site' which has the URL of the current JSON file
+# Does an HTTP GET on the site URLs being passed and looks for status code 200
+# removed dependency on up.json
 def isItUp(site):
-    upSites = []
-    downSites = []
-    site = site.replace('\n', '')
-
-    # only proceed if page loads successfully with status code of 200
     try:
         data = requests.get(site)
         if data.status_code == 200:
-            resp = data.text
-            parsed = json.loads(resp)
-            # if siteUrl property matches the site url passed, then it'll return a 1, otherwise the page gets a 200 but
-            # for some reason, the json file isn't being read
-            try:
-                if parsed['site'] == site:
-                    upSites.append(site)
-                    dataOutput(site, 'up')
-                else:
-                    downSites.append(site)
-                    dataOutput(site, 'down')
-            except:
-                downSites.append(site)
-                dataOutput(site, 'down')
+            return True
         else:
-            downSites.append(site)
-            dataOutput(site, 'down')
+            return False
     except:
-        downSites.append(site)
-        dataOutput(site, 'down')
+        return False
 
 
 # Outputting data to database tables as well as to lights
-def dataOutput(site, status):
+def dataOutput(id, siteUrl, siteName, status):
     if status == 'up':
-        upSites.append(site.replace('\n', ''))
+        # upSites.append(site.replace('\n', ''))
         # send to `activity` table as site that is online
-        db.addActivity("up", site)
-        db.currentStatus(site, "up")
+        db.addActivity("up", siteName)
+        db.currentStatus(siteUrl, "up")
+        db.updateSiteStatus(id, "up")
     else:
-        downSites.append(site.replace('\n', ''))
+        # downSites.append(site.replace('\n', ''))
         # send to activity table as site that is offline
-        db.addActivity("down", site)
-        db.currentStatus(site, "down")
+        db.addActivity("down", siteName)
+        db.currentStatus(siteUrl, "down")
+        db.updateSiteStatus(id, "down")
     if len(downSites) >= 3:
         changeLight(red, 'high')
         changeLight(yellow, 'low')
@@ -108,21 +93,23 @@ def dataOutput(site, status):
 def changeLight(color, status):
     # will only turn on green led if it hasn't been turned off by the cron jobs at night
     # red and yellow lights are not affected by those values
-    if (color == green and rdb.getLedStatus('green') == 1) or color == red or color == yellow:
+    if (color == green and rdb.getLedActive('green') == 1) or color == red or color == yellow:
         if status == "high":
             output = GPIO.HIGH
+            db.changeLedStatus(color, 1)
             # Only affect red and yellow lights
-            if color == red:
-                db.changeLedStatus('red', 1)
-            elif color == yellow:
-                db.changeLedStatus('yellow', 1)
+            # if color == red:
+            #     db.changeLedStatus('red', 1)
+            # elif color == yellow:
+            #     db.changeLedStatus('yellow', 1)
         else:
             output = GPIO.LOW
+            db.changeLedStatus(color, 0)
             # Only affect red and yellow lights
-            if color == red:
-                db.changeLedStatus('red', 0)
-            elif color == yellow:
-                db.changeLedStatus('yellow', 0)
+            # if color == red:
+            #     db.changeLedStatus('red', 0)
+            # elif color == yellow:
+            #     db.changeLedStatus('yellow', 0)
 
         GPIO.setmode(GPIO.BCM)
         GPIO.setwarnings(False)
@@ -145,4 +132,4 @@ def checkSite():
         db.checkSite(site)
 
 
-#sites()
+# sites()

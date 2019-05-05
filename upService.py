@@ -30,6 +30,47 @@ def getCurrentStatus():
     return jsonify(data)
 
 
+@app.route('/getSites', methods=['GET'])
+def getSites():
+    page = request.args.get('page',default=1,type=int)
+    limit = request.args.get('limit',default=100,type=int)
+    data = rdb.getSites(page, limit)
+    return jsonify(data)
+
+@app.route('/addSite', methods=['POST'])
+def addSite():
+    siteName = request.form['siteName']
+    url = request.form['url']
+    status = 0  # default is site is offline until checked
+    active = 1  # default active
+    email = request.form['email']
+    visible = 1  # default visible
+    try:
+        data = db.addSite(siteName, url, status, active, email, visible)
+        # obj = {"status": "successfully added site"}
+        # return json.dumps(obj)
+        return jsonify(data)
+    except:
+        obj = {"status": "Failed to add site"}
+        return json.dumps(obj)
+
+@app.route('/updateSite', methods=['PUT'])
+def updateSite():
+    id = request.form['id']
+    siteName = request.form['siteName']
+    url = request.form['url']
+    # status = request.form['status'] #  should only be updated by site check
+    active = request.form['active']
+    email = request.form['email']
+    visible = 1  # default visible
+    try:
+        data = db.updateSite(id, siteName, url, active, email, visible)
+        return jsonify(data)
+    except:
+        obj = {"status": "Failed to update site"}
+        return json.dumps(obj)
+
+
 @app.route('/getActivity', methods=['GET'])
 def getActivity():
     page = request.args.get('page',default=1,type=int)
@@ -79,6 +120,21 @@ def overrideGreen():
     except:
         obj = {"status": "Failed to change LED status"}
         return json.dumps(obj)
+
+
+@app.route('/getLeds', methods=['GET'])
+def getLedStatus():
+    data = rdb.getLedStatus()
+    return jsonify(data)
+
+
+@app.route('/changeLedActive', methods=['PUT'])
+def changeLedActive():
+    color = request.form['color']
+    active = request.form['active']
+    print(color, active)
+    data = db.overrideLedActive(color, active)
+    return jsonify(data)
 
 
 # This will only update the checkSites cron since it only accepts the interval at which sites are

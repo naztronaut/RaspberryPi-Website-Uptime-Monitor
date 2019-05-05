@@ -16,7 +16,21 @@ CREATE TABLE `currentStatus` (
   `status` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `site` (`site`)
-); 
+);
+
+CREATE TABLE `sites` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `siteName` varchar(999) NOT NULL,
+  `updatedAt` timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
+  `url` varchar(150) DEFAULT NULL,
+  `status` varchar(255) DEFAULT 0,
+  `active` int(1) DEFAULT 1,
+  `email` varchar(999) DEFAULT NULL,
+  `visible` int(1) DEFAULT 1,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `url` (`url`)
+);
+
 
 CREATE TABLE `outages` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -51,8 +65,10 @@ CREATE TABLE `cronSettings` (
 CREATE TABLE `ledStatus` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `color` varchar(150) DEFAULT NULL,
+  `pin` int(3) DEFAULT NULL,
   `updateDate` timestamp(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3),
   `status` tinyint(2) DEFAULT NULL,
+  `active` tinyint(2) DEFAULT '1',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`id`)
 );
@@ -69,10 +85,10 @@ CREATE TABLE `notifications` (
   `status` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_unique` (`id`)
-)
+);
 
 
------ Archive tables -----
+-- Archive tables --
 
  CREATE TABLE `archive_downtimeCounts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
