@@ -68,6 +68,16 @@ def getOutages(page, limit):
     return data
 
 
+# Data for outage charge on UI Dashboard for last 6 months
+def getOutageChart():
+    cursor = db.cursor()
+    cursor.execute("""select createdAt, count(month(createdAt)) from outages GROUP BY month(createdAt) limit 6;""")
+    data = cursor.fetchall()
+    db.commit()
+    cursor.close()
+    return data
+
+
 # Get downtime counts - the count increases by 1 if site is still down and resets to 0 when site comes back up
 # Columns: id, created_at, site, downCount
 # Ideally want to archive data from this table at certain points
