@@ -87,6 +87,12 @@ def getOutages():
     return jsonify(data)
 
 
+@app.route('/getOutageChart', methods=['GET'])
+def getOutageChart():
+    data = rdb.getOutageChart()
+    return jsonify(data)
+
+
 @app.route('/getDowntimeCounts', methods=['GET'])
 def getDowntimeCounts():
     page = request.args.get('page',default=1,type=int)
