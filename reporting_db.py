@@ -71,7 +71,7 @@ def getOutages(page, limit):
 # Data for outage charge on UI Dashboard for last 6 months
 def getOutageChart():
     cursor = db.cursor()
-    cursor.execute("""select createdAt, count(month(createdAt)) as outageCount from outages GROUP BY month(createdAt) limit 6;""")
+    cursor.execute("""select month(createdAt) as month, count(month(createdAt)) as outageCount from outages GROUP BY month(createdAt) limit 6;""")
     data = cursor.fetchall()
     db.commit()
     cursor.close()
